@@ -1,0 +1,64 @@
+{
+  "Index": {
+    "nav": {
+      "login": "Login",
+      "getStarted": "Get Started",
+      "loginDashboard": "Login to Dashboard",
+      "freeStart": "Start for Free"
+    },
+    "hero": {
+      "titlePart1": "Next-Gen AI",
+      "titlePart2": "Quant Engine",
+      "subtitle": "Global trading strategy analysis system driven by multi-modal large models. Discard complex indicators and embrace the certainty driven by AI.",
+      "startAnalysis": "Start AI Analysis Now",
+      "howItWorks": "How It Works"
+    },
+    "features": {
+      "title": "Core Technical Advantages",
+      "subtitle": "Data-driven decisions, completely eliminating human weaknesses from trading.",
+      "items": {
+        "visual": {
+          "title": "Multi-Model Joint Visual Analysis",
+          "desc": "Fuses Gemini, ChatGPT-5.1, and Claude Opus's vision capabilities to directly read MT5 charts without complex indicator calculations."
+        },
+        "risk": {
+          "title": "Automated Risk Damping",
+          "desc": "Calculates entry, stop-loss, and take-profit ratios in real-time, providing an accurate three-level risk control plan to protect your principal."
+        },
+        "auto": {
+          "title": "24/7 Full-Time Operation",
+          "desc": "Say goodbye to screen anxiety. Combined with our exclusive EA authorization, your analysis strategies can be directly converted into automated trades."
+        }
+      }
+    },
+    "stats": {
+      "title": "Why Choose TJZSQuant?",
+      "items": {
+        "models": "Top AI Models",
+        "service": "24/7 Service",
+        "code": "Coding Required",
+        "stability": "System Stability"
+      }
+    },
+    "footer": {
+      "copyright": "© 2026 AI Quant Trading Platform. All rights reserved.",
+      "telegram": "Telegram Community",
+      "contact": "Contact Author",
+      "privacy": "Privacy Policy"
+    }
+  },
+  "Login": {
+    "title": "Login to your console",
+    "subtitle": "Experience the next generation of AI quantitative analysis",
+    "emailLabel": "Email Address",
+    "emailPlaceholder": "name@example.com",
+    "passwordLabel": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot password?",
+    "submitButton": "Login Now",
+    "noAccount": "Don't have an account?",
+    "register": "Register for free",
+    "backToHome": "Back to Home"
+  }
+}

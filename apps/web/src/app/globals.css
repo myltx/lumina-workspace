@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand: #1E60F2;
+  --color-brand-hover: #1748b6;
+
+  /* 背景色体系 */
+  --color-bg-page: #FAFAFA;
+  --color-bg-card: #FFFFFF;
+
+  /* 文字色体系 */
+  --color-fg-primary: #1A1A1A;
+  --color-fg-secondary: #6B7280;
+
+  /* 定制超大圆角 */
+  --radius-3xl: 1.5rem; /* 24px */
+  --radius-4xl: 2rem; /* 32px */
+  --radius-5xl: 2.5rem; /* 40px */
+
+  /* 定制高极感软阴影 */
+  --shadow-soft: 0 20px 40px -15px rgba(0, 0, 0, 0.05);
+  --shadow-float: 0 30px 60px -15px rgba(30, 96, 242, 0.1);
+}
+
+:root {
+  --background: var(--color-bg-page);
+  --foreground: var(--color-fg-primary);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 隐藏旧版暗黑模式默认干扰 */
+@media (prefers-color-scheme: dark) {
+  /* 目前只做纯白质感亮色版，强制保持统一体验 */
+}

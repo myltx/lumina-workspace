@@ -1,0 +1,64 @@
+{
+  "Index": {
+    "nav": {
+      "login": "登录",
+      "getStarted": "开始使用",
+      "loginDashboard": "登录控制台",
+      "freeStart": "免费开始使用"
+    },
+    "hero": {
+      "titlePart1": "下一代 AI",
+      "titlePart2": "量化引擎",
+      "subtitle": "基于多模态大模型的全球级交易策略分析系统。丢掉繁杂指标，拥抱人工智能驱动的确定性。",
+      "startAnalysis": "立刻开启 AI 分析",
+      "howItWorks": "了解运作原理"
+    },
+    "features": {
+      "title": "核心技术优势",
+      "subtitle": "以数据驱动决策，彻底免除人性弱点对交易的干扰",
+      "items": {
+        "visual": {
+          "title": "多模型联合视觉分析",
+          "desc": "融合 Gemini、ChatGPT-5.1 与 Claude Opus 的看图能力，直接读取 MT5 裸 K 截图，无需复杂指标测算。"
+        },
+        "risk": {
+          "title": "自动化风控阻尼",
+          "desc": "实时计算入场位、止损位与止盈比例，提供精确的三级风控方案，保障本金安全。"
+        },
+        "auto": {
+          "title": "7x24小时全天候运转",
+          "desc": "告别盯盘焦虑。结合我们的专属 EA 授权，您的分析策略可以直接转化为自动交易执行。"
+        }
+      }
+    },
+    "stats": {
+      "title": "为什么选择 TJZSQuant？",
+      "items": {
+        "models": "顶尖AI模型",
+        "service": "全天候服务",
+        "code": "所需代码经验",
+        "stability": "系统稳定性"
+      }
+    },
+    "footer": {
+      "copyright": "© 2026 AI量化交易平台. All rights reserved.",
+      "telegram": "Telegram 交流群",
+      "contact": "联系作者",
+      "privacy": "隐私政策"
+    }
+  },
+  "Login": {
+    "title": "登录您的控制台",
+    "subtitle": "开启下一代人工智能量化分析体验",
+    "emailLabel": "邮箱地址",
+    "emailPlaceholder": "name@example.com",
+    "passwordLabel": "密码",
+    "passwordPlaceholder": "请输入密码",
+    "rememberMe": "记住我",
+    "forgotPassword": "忘记密码?",
+    "submitButton": "立即登录",
+    "noAccount": "还没有账号？",
+    "register": "免费注册",
+    "backToHome": "返回官网首页"
+  }
+}
