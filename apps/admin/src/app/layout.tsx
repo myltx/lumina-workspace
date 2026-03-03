@@ -12,8 +12,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Admin Panel - TJZSQuant",
-  description: "TJZSQuant 后台管理系统",
+  title: "Admin Panel - Lumina Workspace",
+  description: "Lumina Workspace 后台管理系统",
 };
 
 export default function RootLayout({

@@ -57,7 +57,7 @@ export default function AdminSidebar() {
               Super Admin
             </p>
             <p className="text-xs font-medium text-slate-500 truncate">
-              admin@tjzsquant.com
+              admin@luminaworkspace.com
             </p>
           </div>
         </div>

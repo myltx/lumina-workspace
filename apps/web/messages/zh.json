@@ -32,7 +32,7 @@
       }
     },
     "stats": {
-      "title": "为什么选择 TJZSQuant？",
+      "title": "为什么选择 Lumina Workspace？",
       "items": {
         "models": "顶尖AI模型",
         "service": "全天候服务",
@@ -158,7 +158,7 @@
       "title": "AI 自动交易系统下载",
       "subtitle": "获取最新的 MT5 EA 插件与运行组件环境",
       "ea": {
-        "title": "TJZSQuant 主程序 (EA)",
+        "title": "Lumina Workspace 主程序 (EA)",
         "desc": "直接安装于 MetaTrader 5 的 Experts 目录下。支持 24 小时挂机，自动接受来自本网页版 AI 控制台发送的交易信号并执行。",
         "downloadBtn": "下载 EA 安装包 (.ex5)"
       },

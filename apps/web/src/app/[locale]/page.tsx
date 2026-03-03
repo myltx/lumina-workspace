@@ -19,7 +19,7 @@ export default function LandingPage() {
             <div className="w-4 h-4 text-white">📈</div>
           </div>
           <span className="text-xl font-extrabold text-slate-900 tracking-tight">
-            TJZSQuant
+            Lumina Workspace
           </span>
         </div>
 
@@ -181,8 +181,8 @@ export default function LandingPage() {
       <footer className="bg-white py-10 md:py-12 border-t border-gray-100 z-10 w-full mt-auto">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 flex flex-col md:flex-row justify-between items-center text-center md:text-left">
           <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-3 mb-6 md:mb-0">
-            <span className="text-xl font-extrabold text-slate-300 tracking-tight">
-              TJZSQuant
+            <span className="text-xl font-extrabold text-slate-900 tracking-tight">
+              Lumina Workspace
             </span>
             <span className="text-slate-400 text-sm">
               {t("footer.copyright")}

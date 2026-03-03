@@ -13,7 +13,7 @@ export default function UsersManagementPage() {
     {
       id: "USR-001",
       name: "马云龙",
-      email: "myl@tjzsquant.com",
+      email: "myl@luminaworkspace.com",
       role: "Super Admin",
       status: "Active",
       lastLogin: "2 分钟前",

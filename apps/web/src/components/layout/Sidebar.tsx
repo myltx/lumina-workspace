@@ -41,7 +41,7 @@ const SidebarContent = ({ pathname }: { pathname: string }) => {
           <LineChart className="w-4 h-4 text-white" />
         </div>
         <span className="text-xl font-extrabold text-slate-900 tracking-tight group-hover:text-[#1E60F2] transition-colors">
-          TJZSQuant
+          Lumina <span className="text-[#1E60F2]">Workspace</span>
         </span>
       </Link>
 
@@ -119,7 +119,7 @@ export default function Sidebar() {
             <LineChart className="w-4 h-4 text-white" />
           </div>
           <span className="text-lg font-extrabold text-slate-900 tracking-tight">
-            TJZSQuant
+            Lumina <span className="text-[#1E60F2]">Workspace</span>
           </span>
         </Link>
         <button

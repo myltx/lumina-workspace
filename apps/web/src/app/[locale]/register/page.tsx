@@ -37,14 +37,14 @@ export default function RegisterPage() {
       return;
     }
 
-    if (email === "demo@tjzsquant.com") {
+    if (email === "demo@luminaworkspace.com") {
       setHasError(true);
       toast.error("该邮箱已被注册，请直接登录");
       setIsLoading(false);
       return;
     }
 
-    toast.success("注册成功！欢迎加入 TJZSQuant");
+    toast.success(`注册成功！欢迎 ${name} 加入 Lumina Workspace`);
     setTimeout(() => {
       router.push("/dashboard");
     }, 1200);
@@ -68,8 +68,8 @@ export default function RegisterPage() {
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#1E60F2] to-blue-400 flex items-center justify-center shadow-lg shadow-blue-500/30">
             <LineChart className="w-5 h-5 text-white" />
           </div>
-          <span className="text-2xl font-extrabold text-slate-900 tracking-tight">
-            TJZSQuant
+          <span className="text-2xl font-extrabold text-[#1E60F2] tracking-tight">
+            Lumina Workspace
           </span>
         </Link>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-slate-900 tracking-tight">

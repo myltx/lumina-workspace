@@ -14,7 +14,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "TJZSQuant - AI 量化交易平台",
+  title: "Lumina Workspace - AI 量化交易平台",
   description: "专业AI量化交易平台，提供AI外汇交易、AI黄金交易策略解决方案。",
 };
 
