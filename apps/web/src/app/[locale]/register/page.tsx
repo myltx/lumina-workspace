@@ -1,10 +1,62 @@
-import React from "react";
-import Link from "next/link";
-import { LineChart, ArrowRight } from "lucide-react";
+"use client";
+
+import React, { useState } from "react";
+import { Link, useRouter } from "@/i18n/routing";
+import { LineChart, ArrowRight, Loader2 } from "lucide-react";
+import { useTranslations } from "next-intl";
+import LanguageSwitcher from "@/components/common/LanguageSwitcher";
+import { toast } from "sonner";
+import clsx from "clsx";
 
 export default function RegisterPage() {
+  const t = useTranslations("Register");
+  const router = useRouter();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const name = formData.get("name") as string;
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    // Reset error state
+    setHasError(false);
+    setIsLoading(true);
+
+    // Simulate API delay
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+
+    // Simple validation simulation
+    if (password.length < 8) {
+      setHasError(true);
+      toast.error("密码太短: 请至少输入 8 位密码");
+      setIsLoading(false);
+      return;
+    }
+
+    if (email === "demo@tjzsquant.com") {
+      setHasError(true);
+      toast.error("该邮箱已被注册，请直接登录");
+      setIsLoading(false);
+      return;
+    }
+
+    toast.success("注册成功！欢迎加入 TJZSQuant");
+    setTimeout(() => {
+      router.push("/dashboard");
+    }, 1200);
+  };
+
   return (
     <div className="min-h-screen bg-[#FAFAFA] flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden">
+      {/* 语言切换按钮 */}
+      <div className="absolute top-8 right-8 sm:right-12 z-20">
+        <LanguageSwitcher />
+      </div>
+
       {/* 背景光晕装饰 */}
       <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-blue-400/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none"></div>
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-cyan-400/10 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2 pointer-events-none"></div>
@@ -12,7 +64,7 @@ export default function RegisterPage() {
       <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10">
         <Link
           href="/"
-          className="flex items-center justify-center space-x-3 mb-8">
+          className="flex items-center justify-center space-x-3 mb-8 hover:opacity-80 transition-opacity">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#1E60F2] to-blue-400 flex items-center justify-center shadow-lg shadow-blue-500/30">
             <LineChart className="w-5 h-5 text-white" />
           </div>
@@ -21,21 +73,25 @@ export default function RegisterPage() {
           </span>
         </Link>
         <h2 className="mt-6 text-center text-3xl font-extrabold text-slate-900 tracking-tight">
-          创建您的分析账户
+          {t("title")}
         </h2>
         <p className="mt-2 text-center text-sm text-slate-500 font-medium">
-          三步开启全自动化量化交易体验
+          {t("subtitle")}
         </p>
       </div>
 
       <div className="mt-8 mx-4 sm:mx-auto sm:w-full sm:max-w-[480px] relative z-10">
-        <div className="bg-white py-8 px-6 sm:py-10 sm:px-12 shadow-[var(--shadow-soft)] rounded-[2rem] sm:rounded-[2.5rem] border border-gray-50/80">
-          <form className="space-y-5" action="#" method="POST">
+        <div
+          className={clsx(
+            "bg-white py-8 px-6 sm:py-10 sm:px-12 shadow-[var(--shadow-soft)] rounded-[2rem] sm:rounded-[2.5rem] border border-gray-50/80 transition-all duration-300",
+            hasError && "animate-shake border-red-100 ring-4 ring-red-500/10",
+          )}>
+          <form className="space-y-5" onSubmit={handleSubmit}>
             <div>
               <label
                 htmlFor="name"
                 className="block text-sm font-bold text-slate-700">
-                您的称呼
+                {t("nameLabel")}
               </label>
               <div className="mt-2">
                 <input
@@ -43,8 +99,13 @@ export default function RegisterPage() {
                   name="name"
                   type="text"
                   required
-                  className="appearance-none block w-full px-4 py-3.5 border border-gray-100 rounded-2xl bg-gray-50/50 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1E60F2]/20 focus:border-[#1E60F2]/50 font-medium transition-all sm:text-sm"
-                  placeholder="请输入用户名"
+                  className={clsx(
+                    "appearance-none block w-full px-4 py-3.5 border rounded-2xl bg-gray-50/50 font-medium transition-all sm:text-sm outline-none",
+                    hasError
+                      ? "border-red-200 focus:ring-2 focus:ring-red-500/20 focus:border-red-500/50 placeholder-red-300"
+                      : "border-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-[#1E60F2]/20 focus:border-[#1E60F2]/50",
+                  )}
+                  placeholder={t("namePlaceholder")}
                 />
               </div>
             </div>
@@ -53,7 +114,7 @@ export default function RegisterPage() {
               <label
                 htmlFor="email"
                 className="block text-sm font-bold text-slate-700">
-                邮箱地址
+                {t("emailLabel")}
               </label>
               <div className="mt-2">
                 <input
@@ -62,8 +123,13 @@ export default function RegisterPage() {
                   type="email"
                   autoComplete="email"
                   required
-                  className="appearance-none block w-full px-4 py-3.5 border border-gray-100 rounded-2xl bg-gray-50/50 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1E60F2]/20 focus:border-[#1E60F2]/50 font-medium transition-all sm:text-sm"
-                  placeholder="name@example.com"
+                  className={clsx(
+                    "appearance-none block w-full px-4 py-3.5 border rounded-2xl bg-gray-50/50 font-medium transition-all sm:text-sm outline-none",
+                    hasError
+                      ? "border-red-200 focus:ring-2 focus:ring-red-500/20 focus:border-red-500/50 placeholder-red-300"
+                      : "border-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-[#1E60F2]/20 focus:border-[#1E60F2]/50",
+                  )}
+                  placeholder={t("emailPlaceholder")}
                 />
               </div>
             </div>
@@ -72,7 +138,7 @@ export default function RegisterPage() {
               <label
                 htmlFor="password"
                 className="block text-sm font-bold text-slate-700">
-                设置密码
+                {t("passwordLabel")}
               </label>
               <div className="mt-2">
                 <input
@@ -80,8 +146,13 @@ export default function RegisterPage() {
                   name="password"
                   type="password"
                   required
-                  className="appearance-none block w-full px-4 py-3.5 border border-gray-100 rounded-2xl bg-gray-50/50 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1E60F2]/20 focus:border-[#1E60F2]/50 font-medium transition-all sm:text-sm"
-                  placeholder="至少 8 位包含字母与数字"
+                  className={clsx(
+                    "appearance-none block w-full px-4 py-3.5 border rounded-2xl bg-gray-50/50 font-medium transition-all sm:text-sm outline-none",
+                    hasError
+                      ? "border-red-200 focus:ring-2 focus:ring-red-500/20 focus:border-red-500/50 placeholder-red-300"
+                      : "border-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-[#1E60F2]/20 focus:border-[#1E60F2]/50",
+                  )}
+                  placeholder={t("passwordPlaceholder")}
                 />
               </div>
             </div>
@@ -89,20 +160,32 @@ export default function RegisterPage() {
             <div className="pt-4">
               <button
                 type="submit"
-                className="w-full flex justify-center py-4 px-4 border border-transparent rounded-full shadow-[var(--shadow-float)] text-sm font-bold text-white bg-[#1E60F2] hover:bg-[#1748b6] hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1E60F2] transition-all duration-300 group">
-                免费注册
-                <ArrowRight className="ml-2 w-4 h-4 opacity-70 group-hover:translate-x-1 transition-transform" />
+                disabled={isLoading}
+                className={clsx(
+                  "w-full flex justify-center items-center py-4 px-4 border border-transparent rounded-full shadow-[var(--shadow-float)] text-sm font-bold text-white transition-all duration-300 group",
+                  isLoading
+                    ? "bg-[#1E60F2]/70 cursor-not-allowed"
+                    : "bg-[#1E60F2] hover:bg-[#1748b6] hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1E60F2]",
+                )}>
+                {isLoading ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  <>
+                    {t("submitButton")}
+                    <ArrowRight className="ml-2 w-4 h-4 opacity-70 group-hover:translate-x-1 transition-transform" />
+                  </>
+                )}
               </button>
             </div>
           </form>
 
           <div className="mt-8 text-center border-t border-gray-50 pt-6 space-y-4">
             <p className="text-sm text-slate-500 font-medium">
-              已有账号？{" "}
+              {t("hasAccount")}{" "}
               <Link
                 href="/login"
                 className="font-bold text-[#1E60F2] hover:text-[#1748b6] transition-colors ml-1">
-                立即登录
+                {t("login")}
               </Link>
             </p>
             <div className="flex justify-center mt-2">
@@ -110,7 +193,7 @@ export default function RegisterPage() {
                 href="/"
                 className="inline-flex items-center text-xs font-bold text-slate-400 hover:text-slate-900 transition-colors">
                 <ArrowRight className="w-3.5 h-3.5 mr-1.5 rotate-180" />{" "}
-                返回官网首页
+                {t("backToHome")}
               </Link>
             </div>
           </div>

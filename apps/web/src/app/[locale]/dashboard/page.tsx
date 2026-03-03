@@ -1,26 +1,29 @@
 import React from "react";
+import { useTranslations } from "next-intl";
 
 export default function DashboardPage() {
+  const t = useTranslations("Dashboard.Overview");
+
   return (
     <>
       {/* 极简超大标题层 */}
       <header className="mb-8 md:mb-10">
         <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">
-          欢迎回来, aqin
+          {t("welcome", { name: "aqin" })}
         </h1>
         <p className="text-slate-500 mt-3 flex items-center font-medium">
           <span className="w-2 h-2 rounded-full bg-green-500 mr-2 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></span>
-          系统状态运行良好
+          {t("systemStatus")}
         </p>
       </header>
 
       {/* 数据概览卡片区: 应用大留白和大圆角 */}
       <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         {[
-          { label: "交易分析", value: "0" },
-          { label: "API调用", value: "12" },
-          { label: "剩余调用", value: "88" },
-          { label: "注册天数", value: "02" },
+          { label: t("stats.analysis"), value: "0" },
+          { label: t("stats.apiCalls"), value: "12" },
+          { label: t("stats.apiRemaining"), value: "88" },
+          { label: t("stats.daysRegistered"), value: "02" },
         ].map((stat, i) => (
           <div
             key={i}
@@ -45,18 +48,18 @@ export default function DashboardPage() {
       <div className="mt-8 md:mt-10 bg-white rounded-3xl md:rounded-[2rem] p-8 lg:p-12 shadow-[var(--shadow-soft)] border border-gray-50 flex flex-col md:flex-row items-center justify-between text-center md:text-left space-y-6 md:space-y-0">
         <div className="flex flex-col items-center md:items-start">
           <div className="text-xs md:text-sm font-bold text-[#1E60F2] tracking-wider uppercase mb-2">
-            Notice
+            {t("ea.notice")}
           </div>
           <h2 className="text-xl md:text-2xl font-bold text-slate-900">
-            您还没有 EA 授权
+            {t("ea.title")}
           </h2>
           <p className="text-sm md:text-base text-slate-500 mt-2 font-medium max-w-xl">
-            购买授权后即可使用所有顶级 AI 智能交易系统的高级功能。
+            {t("ea.desc")}
           </p>
         </div>
 
         <button className="w-full md:w-auto bg-[#1E60F2] text-white px-8 py-4 rounded-full font-bold shadow-[var(--shadow-float)] hover:bg-[#1748b6] hover:scale-105 transition-all duration-300 active:scale-95">
-          立即购买授权
+          {t("ea.buyBtn")}
         </button>
       </div>
     </>

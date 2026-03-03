@@ -1,11 +1,55 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import { Link } from "@/i18n/routing";
-import { LineChart, ArrowRight } from "lucide-react";
+import { useRouter } from "@/i18n/routing";
+import { LineChart, ArrowRight, Loader2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import LanguageSwitcher from "@/components/common/LanguageSwitcher";
+import { toast } from "sonner";
+import clsx from "clsx";
 
 export default function LoginPage() {
   const t = useTranslations("Login");
+  const router = useRouter();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasError, setHasError] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+
+    // Reset error state
+    setHasError(false);
+    setIsLoading(true);
+
+    // Simulate API delay
+    await new Promise((resolve) => setTimeout(resolve, 1200));
+
+    // Simple validation simulation
+    if (password.length < 6) {
+      setHasError(true);
+      toast.error("密码不正确: 请至少输入 6 位密码");
+      setIsLoading(false);
+      return;
+    }
+
+    if (email !== "demo@tjzsquant.com" && email !== "admin@a.com") {
+      toast.success("模拟登录成功，即将进入控制台！");
+      setTimeout(() => {
+        router.push("/dashboard");
+      }, 1000);
+      return;
+    }
+
+    // Example specific errors
+    setHasError(true);
+    toast.error("账号或密码错误");
+    setIsLoading(false);
+  };
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden">
@@ -21,7 +65,7 @@ export default function LoginPage() {
       <div className="sm:mx-auto sm:w-full sm:max-w-md relative z-10">
         <Link
           href="/"
-          className="flex items-center justify-center space-x-3 mb-8">
+          className="flex items-center justify-center space-x-3 mb-8 hover:opacity-80 transition-opacity">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#1E60F2] to-blue-400 flex items-center justify-center shadow-lg shadow-blue-500/30">
             <LineChart className="w-5 h-5 text-white" />
           </div>
@@ -38,8 +82,12 @@ export default function LoginPage() {
       </div>
 
       <div className="mt-8 mx-4 sm:mx-auto sm:w-full sm:max-w-[480px] relative z-10">
-        <div className="bg-white py-8 px-6 sm:py-10 sm:px-12 shadow-[var(--shadow-soft)] rounded-[2rem] sm:rounded-[2.5rem] border border-gray-50/80">
-          <form className="space-y-6" action="#" method="POST">
+        <div
+          className={clsx(
+            "bg-white py-8 px-6 sm:py-10 sm:px-12 shadow-[var(--shadow-soft)] rounded-[2rem] sm:rounded-[2.5rem] border border-gray-50/80 transition-all duration-300",
+            hasError && "animate-shake border-red-100 ring-4 ring-red-500/10",
+          )}>
+          <form className="space-y-6" onSubmit={handleSubmit}>
             <div>
               <label
                 htmlFor="email"
@@ -53,7 +101,12 @@ export default function LoginPage() {
                   type="email"
                   autoComplete="email"
                   required
-                  className="appearance-none block w-full px-4 py-3.5 border border-gray-100 rounded-2xl bg-gray-50/50 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1E60F2]/20 focus:border-[#1E60F2]/50 font-medium transition-all sm:text-sm"
+                  className={clsx(
+                    "appearance-none block w-full px-4 py-3.5 border rounded-2xl bg-gray-50/50 font-medium transition-all sm:text-sm outline-none",
+                    hasError
+                      ? "border-red-200 focus:ring-2 focus:ring-red-500/20 focus:border-red-500/50 placeholder-red-300"
+                      : "border-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-[#1E60F2]/20 focus:border-[#1E60F2]/50",
+                  )}
                   placeholder={t("emailPlaceholder")}
                 />
               </div>
@@ -72,7 +125,12 @@ export default function LoginPage() {
                   type="password"
                   autoComplete="current-password"
                   required
-                  className="appearance-none block w-full px-4 py-3.5 border border-gray-100 rounded-2xl bg-gray-50/50 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#1E60F2]/20 focus:border-[#1E60F2]/50 font-medium transition-all sm:text-sm"
+                  className={clsx(
+                    "appearance-none block w-full px-4 py-3.5 border rounded-2xl bg-gray-50/50 font-medium transition-all sm:text-sm outline-none",
+                    hasError
+                      ? "border-red-200 focus:ring-2 focus:ring-red-500/20 focus:border-red-500/50 placeholder-red-300"
+                      : "border-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-[#1E60F2]/20 focus:border-[#1E60F2]/50",
+                  )}
                   placeholder={t("passwordPlaceholder")}
                 />
               </div>
@@ -105,9 +163,21 @@ export default function LoginPage() {
             <div className="pt-2">
               <button
                 type="submit"
-                className="w-full flex justify-center py-4 px-4 border border-transparent rounded-full shadow-[var(--shadow-float)] text-sm font-bold text-white bg-[#1E60F2] hover:bg-[#1748b6] hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1E60F2] transition-all duration-300 group">
-                {t("submitButton")}
-                <ArrowRight className="ml-2 w-4 h-4 opacity-70 group-hover:translate-x-1 transition-transform" />
+                disabled={isLoading}
+                className={clsx(
+                  "w-full flex justify-center items-center py-4 px-4 border border-transparent rounded-full shadow-[var(--shadow-float)] text-sm font-bold text-white transition-all duration-300 group",
+                  isLoading
+                    ? "bg-[#1E60F2]/70 cursor-not-allowed"
+                    : "bg-[#1E60F2] hover:bg-[#1748b6] hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#1E60F2]",
+                )}>
+                {isLoading ? (
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                ) : (
+                  <>
+                    {t("submitButton")}
+                    <ArrowRight className="ml-2 w-4 h-4 opacity-70 group-hover:translate-x-1 transition-transform" />
+                  </>
+                )}
               </button>
             </div>
           </form>

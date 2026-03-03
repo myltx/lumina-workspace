@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Link, usePathname } from "@/i18n/routing";
+import { useTranslations } from "next-intl";
 import {
   LayoutDashboard,
   LineChart,
@@ -15,78 +16,88 @@ import {
 } from "lucide-react";
 import clsx from "clsx";
 
-const navigationItems = [
-  { name: "交易面板", href: "/dashboard", icon: LayoutDashboard },
-  { name: "Ai 图表分析", href: "/dashboard/ai-chart", icon: LineChart },
-  { name: "交易记录", href: "/dashboard/history", icon: History },
-  { name: "教学观摩", href: "/dashboard/learning", icon: BookOpen },
-  { name: "系统下载", href: "/dashboard/downloads", icon: DownloadCloud },
-];
+const SidebarContent = ({ pathname }: { pathname: string }) => {
+  const t = useTranslations("Sidebar");
 
-const SidebarContent = ({ pathname }: { pathname: string }) => (
-  <>
-    {/* Logo 区域 (带返回首页链路) */}
-    <Link
-      href="/"
-      className="flex items-center space-x-3 mb-10 lg:mb-16 pl-4 group active:scale-95 transition-transform cursor-pointer shrink-0">
-      <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#1E60F2] to-blue-400 flex items-center justify-center shadow-lg shadow-blue-500/30 group-hover:shadow-blue-500/50 transition-shadow">
-        <LineChart className="w-4 h-4 text-white" />
-      </div>
-      <span className="text-xl font-extrabold text-slate-900 tracking-tight group-hover:text-[#1E60F2] transition-colors">
-        TJZSQuant
-      </span>
-    </Link>
+  const navigationItems = [
+    { name: t("nav.dashboard"), href: "/dashboard", icon: LayoutDashboard },
+    { name: t("nav.aiChart"), href: "/dashboard/ai-chart", icon: LineChart },
+    { name: t("nav.history"), href: "/dashboard/history", icon: History },
+    { name: t("nav.learning"), href: "/dashboard/learning", icon: BookOpen },
+    {
+      name: t("nav.downloads"),
+      href: "/dashboard/downloads",
+      icon: DownloadCloud,
+    },
+  ];
 
-    {/* 导航菜单 */}
-    <nav className="flex-1 space-y-2 overflow-y-auto">
-      {navigationItems.map((item) => {
-        const isActive = pathname === item.href;
-        const Icon = item.icon;
-        return (
-          <Link
-            key={item.name}
-            href={item.href}
-            className={clsx(
-              "group flex items-center px-4 py-3.5 text-[15px] font-medium rounded-2xl transition-all duration-300 ease-in-out",
-              isActive
-                ? "bg-[#1E60F2]/[0.06] text-[#1E60F2] shadow-sm"
-                : "text-slate-500 hover:bg-gray-50 hover:text-slate-900",
-            )}>
-            <Icon
-              className={clsx(
-                "mr-3.5 h-[1.15rem] w-[1.15rem] transition-colors duration-300",
-                isActive
-                  ? "text-[#1E60F2]"
-                  : "text-slate-400 group-hover:text-slate-700",
-              )}
-            />
-            {item.name}
-          </Link>
-        );
-      })}
-    </nav>
-
-    {/* 底部退出与用户信息栏 */}
-    <div className="mt-auto flex flex-col pt-6 border-t border-gray-50 space-y-2 shrink-0">
+  return (
+    <>
+      {/* Logo 区域 (带返回首页链路) */}
       <Link
         href="/"
-        className="flex items-center px-4 py-3 text-[15px] font-medium text-slate-500 rounded-2xl hover:bg-red-50 hover:text-red-500 transition-colors group">
-        <LogOut className="mr-3.5 h-[1.15rem] w-[1.15rem] text-slate-400 group-hover:text-red-500 transition-colors" />
-        退出控制台
+        className="flex items-center space-x-3 mb-10 lg:mb-16 pl-4 group active:scale-95 transition-transform cursor-pointer shrink-0">
+        <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#1E60F2] to-blue-400 flex items-center justify-center shadow-lg shadow-blue-500/30 group-hover:shadow-blue-500/50 transition-shadow">
+          <LineChart className="w-4 h-4 text-white" />
+        </div>
+        <span className="text-xl font-extrabold text-slate-900 tracking-tight group-hover:text-[#1E60F2] transition-colors">
+          TJZSQuant
+        </span>
       </Link>
 
-      <div className="flex items-center cursor-pointer hover:bg-gray-50 p-3 rounded-2xl transition-colors">
-        <UserCircle className="w-10 h-10 text-slate-300 mr-3 shrink-0" />
-        <div className="flex-1 min-w-0">
-          <p className="text-sm font-semibold text-slate-900 truncate">
-            测试账户
-          </p>
-          <p className="text-xs text-slate-400 truncate">API 剩余: 100次</p>
+      {/* 导航菜单 */}
+      <nav className="flex-1 space-y-2 overflow-y-auto">
+        {navigationItems.map((item) => {
+          const isActive = pathname === item.href;
+          const Icon = item.icon;
+          return (
+            <Link
+              key={item.name}
+              href={item.href}
+              className={clsx(
+                "group flex items-center px-4 py-3.5 text-[15px] font-medium rounded-2xl transition-all duration-300 ease-in-out",
+                isActive
+                  ? "bg-[#1E60F2]/[0.06] text-[#1E60F2] shadow-sm"
+                  : "text-slate-500 hover:bg-gray-50 hover:text-slate-900",
+              )}>
+              <Icon
+                className={clsx(
+                  "mr-3.5 h-[1.15rem] w-[1.15rem] transition-colors duration-300",
+                  isActive
+                    ? "text-[#1E60F2]"
+                    : "text-slate-400 group-hover:text-slate-700",
+                )}
+              />
+              {item.name}
+            </Link>
+          );
+        })}
+      </nav>
+
+      {/* 底部退出与用户信息栏 */}
+      <div className="mt-auto flex flex-col pt-6 border-t border-gray-50 space-y-2 shrink-0">
+        <Link
+          href="/"
+          className="flex items-center px-4 py-3 text-[15px] font-medium text-slate-500 rounded-2xl hover:bg-red-50 hover:text-red-500 transition-colors group">
+          <LogOut className="mr-3.5 h-[1.15rem] w-[1.15rem] text-slate-400 group-hover:text-red-500 transition-colors" />
+          {t("logout")}
+        </Link>
+
+        <div className="flex items-center cursor-pointer hover:bg-gray-50 p-3 rounded-2xl transition-colors">
+          <UserCircle className="w-10 h-10 text-slate-300 mr-3 shrink-0" />
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold text-slate-900 truncate">
+              {t("user.name")}
+            </p>
+            <p className="text-xs text-slate-400 truncate">
+              {t("user.apiRemaining", { count: 100 })}
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-  </>
-);
+    </>
+  );
+};
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -94,7 +105,9 @@ export default function Sidebar() {
 
   // Close mobile menu when pathname changes
   useEffect(() => {
-    setIsMobileMenuOpen(false);
+    setTimeout(() => {
+      setIsMobileMenuOpen(false);
+    }, 0);
   }, [pathname]);
 
   return (

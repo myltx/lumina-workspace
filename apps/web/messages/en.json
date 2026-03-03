@@ -60,5 +60,123 @@
     "noAccount": "Don't have an account?",
     "register": "Register for free",
     "backToHome": "Back to Home"
+  },
+  "Register": {
+    "title": "Create your analysis account",
+    "subtitle": "Start your fully automated quant trading in 3 steps",
+    "nameLabel": "Your Name",
+    "namePlaceholder": "Enter your username",
+    "emailLabel": "Email Address",
+    "emailPlaceholder": "name@example.com",
+    "passwordLabel": "Set Password",
+    "passwordPlaceholder": "At least 8 chars with letters & numbers",
+    "submitButton": "Register for free",
+    "hasAccount": "Already have an account?",
+    "login": "Login Now",
+    "backToHome": "Back to Home"
+  },
+  "Sidebar": {
+    "nav": {
+      "dashboard": "Dashboard",
+      "aiChart": "AI Chart Analysis",
+      "history": "History",
+      "learning": "Learning",
+      "downloads": "Downloads"
+    },
+    "logout": "Logout",
+    "user": {
+      "name": "Test Account",
+      "apiRemaining": "API Remaining: {count}"
+    }
+  },
+  "Dashboard": {
+    "Overview": {
+      "welcome": "Welcome back, {name}",
+      "systemStatus": "System running normally",
+      "stats": {
+        "analysis": "Analyzes",
+        "apiCalls": "API Calls",
+        "apiRemaining": "API Left",
+        "daysRegistered": "Days Active"
+      },
+      "ea": {
+        "notice": "Notice",
+        "title": "You do not have an EA License",
+        "desc": "Purchase a license to unlock premium features of the AI trading system.",
+        "buyBtn": "Buy License Now"
+      }
+    },
+    "AiChart": {
+      "title": "AI Chart Analysis",
+      "subtitle": "Multi-Model Analysis | Gemini 3 + GPT-5.1 + Claude Opus 4.5",
+      "inputMode": {
+        "image": "Upload MT5 Chart",
+        "manual": "Manual Input"
+      },
+      "upload": {
+        "title": "Click or drag your chart here to upload",
+        "desc": "No indicators required, AI analyzes raw price action.\nSupports JPG, PNG."
+      },
+      "manual": {
+        "currentPrice": "Current Price",
+        "currentPricePlaceholder": "e.g., 1950.50",
+        "timeframe": "Timeframe",
+        "tf": {
+          "m15": "M15",
+          "h1": "H1",
+          "h4": "H4",
+          "d1": "D1"
+        },
+        "indicators": "Technical Indicators (Optional)",
+        "indicatorsPlaceholder": "Enter current RSI, MACD, etc..."
+      },
+      "controls": {
+        "ready": "Ready: ",
+        "startBtn": "Generate Signal"
+      }
+    },
+    "History": {
+      "title": "My Trading History",
+      "subtitle": "View and search your past AI analysis records",
+      "totalRecords": "Total: {count} records",
+      "stats": {
+        "totalAnalysis": "Total Analyzes",
+        "todayAnalysis": "Analyzes Today",
+        "symbols": "Trading Symbols",
+        "latest": "Recent Analysis",
+        "none": "--"
+      },
+      "searchPlaceholder": "Search history or symbols...",
+      "newAnalysisBtn": "New Analysis",
+      "empty": {
+        "title": "No History Found",
+        "desc": "You have not performed any AI chart analysis yet.",
+        "createLink": "Create your first AI analysis →"
+      }
+    },
+    "Downloads": {
+      "title": "Download AI Trading System",
+      "subtitle": "Get the latest MT5 EA plugin and components",
+      "ea": {
+        "title": "TJZSQuant Main EA",
+        "desc": "Install directly into your MetaTrader 5 Experts folder. Supports 24/7 automated trading based on web console signals.",
+        "downloadBtn": "Download EA (.ex5)"
+      },
+      "api": {
+        "title": "API Helper Scripts",
+        "desc": "For developers who need advanced customization to manually call our AI interface.",
+        "downloadBtn": "Download API Docs & Demo (.zip)"
+      },
+      "token": {
+        "title": "Configure Your Secret Token",
+        "desc": "Copy this Token and paste it into the API_SECRET_KEY parameter of your MT5 EA so it can receive cloud instructions.",
+        "copyBtn": "Copy"
+      }
+    },
+    "Learning": {
+      "title": "Learning & Live Accounts",
+      "subtitle": "Learn how to maximize our AI system and watch live accounts.",
+      "playNow": "Play Now"
+    }
   }
 }

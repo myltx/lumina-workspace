@@ -1,7 +1,10 @@
 import React from "react";
 import { PlayCircle, ExternalLink } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export default function LearningPage() {
+  const t = useTranslations("Dashboard.Learning");
+
   const videos = [
     {
       title: "AI 量化交易系统新手入门指南",
@@ -34,11 +37,9 @@ export default function LearningPage() {
       <header className="flex flex-col md:flex-row md:items-end justify-between space-y-6 md:space-y-0 pb-4 border-b border-gray-100">
         <div>
           <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-            教学与实盘观摩
+            {t("title")}
           </h1>
-          <p className="text-slate-500 mt-2 font-medium">
-            学习如何最大化利用我们的 AI 系统，并查看最新实盘录像。
-          </p>
+          <p className="text-slate-500 mt-2 font-medium">{t("subtitle")}</p>
         </div>
       </header>
 
@@ -74,7 +75,7 @@ export default function LearningPage() {
               </h3>
 
               <div className="mt-auto pt-6 flex items-center text-sm font-bold text-slate-400 group-hover:text-[#1E60F2] transition-colors">
-                立即播放 <ExternalLink className="w-4 h-4 ml-1.5" />
+                {t("playNow")} <ExternalLink className="w-4 h-4 ml-1.5" />
               </div>
             </div>
           </div>

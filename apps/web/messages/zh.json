@@ -60,5 +60,123 @@
     "noAccount": "还没有账号？",
     "register": "免费注册",
     "backToHome": "返回官网首页"
+  },
+  "Register": {
+    "title": "创建您的分析账户",
+    "subtitle": "三步开启全自动化量化交易体验",
+    "nameLabel": "您的称呼",
+    "namePlaceholder": "请输入用户名",
+    "emailLabel": "邮箱地址",
+    "emailPlaceholder": "name@example.com",
+    "passwordLabel": "设置密码",
+    "passwordPlaceholder": "至少 8 位包含字母与数字",
+    "submitButton": "免费注册",
+    "hasAccount": "已有账号？",
+    "login": "立即登录",
+    "backToHome": "返回官网首页"
+  },
+  "Sidebar": {
+    "nav": {
+      "dashboard": "交易面板",
+      "aiChart": "Ai 图表分析",
+      "history": "交易记录",
+      "learning": "教学观摩",
+      "downloads": "系统下载"
+    },
+    "logout": "退出控制台",
+    "user": {
+      "name": "测试账户",
+      "apiRemaining": "API 剩余: {count}次"
+    }
+  },
+  "Dashboard": {
+    "Overview": {
+      "welcome": "欢迎回来, {name}",
+      "systemStatus": "系统状态运行良好",
+      "stats": {
+        "analysis": "交易分析",
+        "apiCalls": "API调用",
+        "apiRemaining": "剩余调用",
+        "daysRegistered": "注册天数"
+      },
+      "ea": {
+        "notice": "Notice",
+        "title": "您还没有 EA 授权",
+        "desc": "购买授权后即可使用所有顶级 AI 智能交易系统的高级功能。",
+        "buyBtn": "立即购买授权"
+      }
+    },
+    "AiChart": {
+      "title": "Ai 图表分析",
+      "subtitle": "多模型联合分析 | Gemini 3 + GPT-5.1 + Claude Opus 4.5",
+      "inputMode": {
+        "image": "上传 MT5 截图",
+        "manual": "手动输入数据"
+      },
+      "upload": {
+        "title": "点击或将图片拖拽到此处上传",
+        "desc": "无需添加任何指标，AI分析裸K价格走势\n支持 JPG、PNG 格式"
+      },
+      "manual": {
+        "currentPrice": "当前价格",
+        "currentPricePlaceholder": "例如: 1950.50",
+        "timeframe": "时间周期",
+        "tf": {
+          "m15": "M15 (15分钟)",
+          "h1": "H1 (1小时)",
+          "h4": "H4 (4小时)",
+          "d1": "D1 (日线)"
+        },
+        "indicators": "技术指标数值 (可选)",
+        "indicatorsPlaceholder": "您可以输入当前的 RSI、MACD 等指标状况..."
+      },
+      "controls": {
+        "ready": "已就绪：",
+        "startBtn": "开始生成信号"
+      }
+    },
+    "History": {
+      "title": "我的交易记录",
+      "subtitle": "查看并检索您过往的所有 AI 交易分析历史",
+      "totalRecords": "总计: {count} 条记录",
+      "stats": {
+        "totalAnalysis": "总分析次数",
+        "todayAnalysis": "今日分析",
+        "symbols": "交易品种",
+        "latest": "最近分析",
+        "none": "--"
+      },
+      "searchPlaceholder": "搜索交易内容或货币对...",
+      "newAnalysisBtn": "新建分析",
+      "empty": {
+        "title": "暂无交易记录",
+        "desc": "您还没有进行过任何人工智能图表分析，这里看起来空空如也。",
+        "createLink": "开始创建您的第一个AI交易分析 →"
+      }
+    },
+    "Downloads": {
+      "title": "AI 自动交易系统下载",
+      "subtitle": "获取最新的 MT5 EA 插件与运行组件环境",
+      "ea": {
+        "title": "TJZSQuant 主程序 (EA)",
+        "desc": "直接安装于 MetaTrader 5 的 Experts 目录下。支持 24 小时挂机，自动接受来自本网页版 AI 控制台发送的交易信号并执行。",
+        "downloadBtn": "下载 EA 安装包 (.ex5)"
+      },
+      "api": {
+        "title": "API 信号收发辅助脚本",
+        "desc": "用于需要进阶自定义配置的开发者，可以手动调取我们 AI 接口的底层函数脚本示例及相关说明文档。",
+        "downloadBtn": "下载 API 白皮书及 Demo (.zip)"
+      },
+      "token": {
+        "title": "配置您的专属信号标识",
+        "desc": "请将此 Token 复制并填入您 MT5 EA 属性面板中，以便 EA 正确接收您的云端分析指令。",
+        "copyBtn": "复制"
+      }
+    },
+    "Learning": {
+      "title": "教学与实盘观摩",
+      "subtitle": "学习如何最大化利用我们的 AI 系统，并查看最新实盘录像。",
+      "playNow": "立即播放"
+    }
   }
 }
