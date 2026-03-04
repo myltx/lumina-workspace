@@ -1,8 +1,17 @@
 import { getTranslations } from "next-intl/server";
+import { Link } from "@/i18n/routing";
 import LandingNavbar from "@/components/layout/LandingNavbar";
 import { prisma } from "@/lib/prisma";
 import dayjs from "dayjs";
-import { ArrowRight, Bell } from "lucide-react";
+import {
+  ArrowRight,
+  Bell,
+  DownloadCloud,
+  Monitor,
+  CheckCircle2,
+} from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export const dynamic = "force-dynamic";
 
@@ -18,6 +27,16 @@ export default async function LandingPage() {
       publishedAt: "desc",
     },
     take: 3,
+  });
+
+  const latestRelease = await prisma.release.findFirst({
+    where: {
+      status: "PUBLISHED",
+      isLatest: true,
+    },
+    orderBy: {
+      publishedAt: "desc",
+    },
   });
 
   return (
@@ -39,11 +58,11 @@ export default async function LandingPage() {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-            <a
+            <Link
               href="/dashboard"
               className="w-full sm:w-auto px-10 py-5 bg-[#1E60F2] text-white text-lg font-bold rounded-full shadow-[var(--shadow-float)] hover:-translate-y-1 hover:shadow-2xl transition-all duration-300">
               {t("hero.startAnalysis")}
-            </a>
+            </Link>
             <a
               href="#features"
               className="w-full sm:w-auto px-10 py-5 bg-white text-slate-700 text-lg font-bold rounded-full shadow-[var(--shadow-soft)] hover:bg-gray-50 transition-all duration-300">
@@ -152,6 +171,96 @@ export default async function LandingPage() {
                   </div>
                 ),
               )}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* 诱饵展示区：最新官方软件包发行 (Release驱动) */}
+      {latestRelease && (
+        <section className="py-16 md:py-24 bg-white relative z-10 w-full border-t border-gray-100">
+          <div className="max-w-7xl mx-auto px-6 lg:px-12">
+            <div className="mb-12 md:mb-16 text-center">
+              <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-blue-50 text-[#1E60F2] mb-4 border border-blue-100">
+                <CheckCircle2 className="w-4 h-4 mr-1.5" /> 官方最新发布通道
+              </span>
+              <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 mb-4">
+                获取革命性的量化交易引擎
+              </h2>
+              <p className="text-lg text-slate-500 max-w-2xl mx-auto font-medium">
+                立刻下载包含全栈 AI 策略的官方直签版
+                EA，无门槛接入多重行情识别器。
+              </p>
+            </div>
+
+            <div className="bg-gradient-to-br from-slate-900 to-blue-900 rounded-[2.5rem] p-8 md:p-14 shadow-2xl relative overflow-hidden group border border-slate-800">
+              <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#1E60F2]/30 blur-[100px] rounded-full translate-x-1/3 -translate-y-1/3 pointer-events-none group-hover:bg-[#1E60F2]/40 transition-colors duration-700"></div>
+
+              <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                <div className="space-y-6 md:space-y-8">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-12 h-12 bg-white/10 rounded-xl flex items-center justify-center border border-white/10 shadow-inner backdrop-blur-sm">
+                      <Monitor className="w-6 h-6 text-blue-300" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl md:text-3xl font-extrabold text-white tracking-tight">
+                        {latestRelease.title}
+                      </h3>
+                      <div className="flex items-center mt-2 space-x-3">
+                        <span className="text-sm font-bold text-blue-200">
+                          {latestRelease.version}
+                        </span>
+                        <span className="w-1 h-1 rounded-full bg-slate-500"></span>
+                        <span className="text-sm text-slate-400 font-medium">
+                          {latestRelease.platform}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="prose prose-invert prose-sm max-w-none text-slate-300">
+                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      {latestRelease.changelog
+                        .split("\n")
+                        .slice(0, 5)
+                        .join("\n") +
+                        (latestRelease.changelog.split("\n").length > 5
+                          ? "\n..."
+                          : "")}
+                    </ReactMarkdown>
+                  </div>
+
+                  <div className="pt-4">
+                    <Link
+                      href="/dashboard/downloads"
+                      className="inline-flex items-center justify-center w-full sm:w-auto px-8 py-4 text-base font-bold text-slate-900 bg-white rounded-xl shadow-[var(--shadow-float)] hover:-translate-y-1 hover:bg-slate-50 transition-all duration-300 group/btn">
+                      <DownloadCloud className="w-5 h-5 mr-2 text-[#1E60F2]" />
+                      登录获取安装包
+                      <ArrowRight className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 transition-transform" />
+                    </Link>
+                    <p className="mt-4 text-xs font-medium text-slate-400">
+                      * 需注册获取平台密钥方可激活使用
+                    </p>
+                  </div>
+                </div>
+
+                <div className="hidden lg:flex justify-end relative">
+                  <div className="w-full max-w-md aspect-square bg-gradient-to-tr from-blue-500/10 to-transparent rounded-full border border-white/5 flex items-center justify-center p-8">
+                    <div className="w-full h-full bg-slate-800/50 rounded-full border border-white/10 flex items-center justify-center backdrop-blur-md relative overflow-hidden">
+                      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20 mix-blend-overlay"></div>
+                      <div className="text-center relative z-10">
+                        <div className="text-6xl mb-4">🚀</div>
+                        <div className="text-xl font-bold text-white tracking-wider font-mono">
+                          {latestRelease.version}
+                        </div>
+                        <div className="text-sm text-blue-300 mt-2 font-medium">
+                          READY TO DEPLOY
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </section>

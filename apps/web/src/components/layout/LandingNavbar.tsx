@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "@/i18n/routing";
 import LanguageSwitcher from "@/components/common/LanguageSwitcher";
 import { Menu, X } from "lucide-react";
@@ -8,11 +8,25 @@ import { useTranslations } from "next-intl";
 
 export default function LandingNavbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const t = useTranslations("Index");
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <>
-      <nav className="w-full absolute top-0 left-0 z-50 px-6 py-4 md:px-8 md:py-6 lg:px-16 flex items-center justify-between">
+      <nav
+        className={`w-full fixed top-0 left-0 z-50 px-6 py-4 md:px-8 md:py-4 lg:px-16 flex items-center justify-between transition-all duration-300 ${
+          isScrolled
+            ? "bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-100/50"
+            : "bg-transparent"
+        }`}>
         <div className="flex items-center space-x-3">
           <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#1E60F2] to-blue-400 flex items-center justify-center shadow-lg shadow-blue-500/30">
             <div className="w-4 h-4 text-white">📈</div>
@@ -59,7 +73,7 @@ export default function LandingNavbar() {
 
       {/* Mobile Dropdown Menu */}
       <div
-        className={`fixed inset-0 top-[72px] bg-white z-40 transition-transform duration-300 ease-in-out md:hidden flex flex-col px-6 py-6 space-y-4 ${
+        className={`fixed inset-0 top-[76px] bg-white z-40 transition-transform duration-300 ease-in-out md:hidden flex flex-col px-6 py-6 space-y-4 ${
           isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}>
         <Link
