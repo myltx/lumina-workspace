@@ -178,5 +178,28 @@
       "subtitle": "学习如何最大化利用我们的 AI 系统，并查看最新实盘录像。",
       "playNow": "立即播放"
     }
+  },
+  "Contact": {
+    "title": "联系我们",
+    "subtitle": "有任何问题或合作意向？请留下您的联系方式与需求，我们的专业团队会在工作日24小时内给您答复。",
+    "form": {
+      "nameLabel": "您的姓名 *",
+      "namePlaceholder": "如：张三",
+      "contactLabel": "手机号 / 微信号 *",
+      "contactPlaceholder": "方便我们及时联络您",
+      "emailLabel": "电子邮箱",
+      "emailPlaceholder": "（可选）you@example.com",
+      "companyLabel": "公司/团队名称",
+      "companyPlaceholder": "（可选）",
+      "contentLabel": "需求描述 *",
+      "contentPlaceholder": "请尽量详细地描述您的合作意向或遇到的问题...",
+      "submitBtn": "安全提交预留信息"
+    },
+    "success": {
+      "title": "我们的团队已收到您的申请！",
+      "desc": "感谢您对 Lumina Workspace 的关注。您的专属客户经理正在为您分配，我们会通过您预留的邮箱与您取得后续联系。",
+      "resubmitBtn": "再发送一条线索"
+    },
+    "backToHome": "返回首页"
   }
 }

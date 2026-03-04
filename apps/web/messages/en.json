@@ -178,5 +178,28 @@
       "subtitle": "Learn how to maximize our AI system and watch live accounts.",
       "playNow": "Play Now"
     }
+  },
+  "Contact": {
+    "title": "Contact Us",
+    "subtitle": "Have questions or partnership inquiries? Leave your contact info and our professional team will reply within 24 hours.",
+    "form": {
+      "nameLabel": "Your Name *",
+      "namePlaceholder": "e.g., John Doe",
+      "contactLabel": "Phone / WeChat *",
+      "contactPlaceholder": "So we can reach you promptly",
+      "emailLabel": "Email Address",
+      "emailPlaceholder": "(Optional) you@example.com",
+      "companyLabel": "Company / Team",
+      "companyPlaceholder": "(Optional)",
+      "contentLabel": "Message *",
+      "contentPlaceholder": "Please describe your inquiry in detail...",
+      "submitBtn": "Submit Securely"
+    },
+    "success": {
+      "title": "We've received your request!",
+      "desc": "Thank you for your interest in Lumina Workspace. An account manager is being assigned to you and will contact you shortly.",
+      "resubmitBtn": "Submit Another Request"
+    },
+    "backToHome": "Back to Home"
   }
 }

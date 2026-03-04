@@ -6,11 +6,13 @@ import { ArrowRight, Loader2, Send } from "lucide-react";
 import { toast } from "sonner";
 import clsx from "clsx";
 import LanguageSwitcher from "@/components/common/LanguageSwitcher";
+import { useTranslations } from "next-intl";
 
 export default function ContactPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const t = useTranslations("Contact");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -37,17 +39,15 @@ export default function ContactPage() {
       });
 
       if (!res.ok) {
-        const errorText = await res.text();
-        throw new Error(errorText || "提交失败");
+        throw new Error("Error");
       }
 
       setIsSuccess(true);
-      toast.success("信息提交成功！");
+      toast.success(t("success.title"));
     } catch (error: Error | unknown) {
       console.error(error);
       setHasError(true);
-      const err = error as Error;
-      toast.error(err?.message || "网络异常，请稍后再试");
+      toast.error("Error");
     } finally {
       setIsLoading(false);
     }
@@ -74,11 +74,10 @@ export default function ContactPage() {
       <div className="flex-1 flex flex-col justify-center py-20 mt-12 sm:px-6 lg:px-8 relative z-10 w-full max-w-5xl mx-auto">
         <div className="text-center mb-10">
           <h2 className="text-4xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
-            联系我们
+            {t("title")}
           </h2>
           <p className="mt-4 text-lg text-slate-500 font-medium max-w-2xl mx-auto px-4">
-            有任何问题或合作意向？请留下您的联系方式与需求，我们的专业团队会在工作日
-            24 小时内给您答复。
+            {t("subtitle")}
           </p>
         </div>
 
@@ -89,16 +88,15 @@ export default function ContactPage() {
                 <Send className="w-8 h-8 ml-1" />
               </div>
               <h3 className="text-2xl font-bold text-slate-900 mb-4 tracking-tight">
-                我们的团队已收到您的申请！
+                {t("success.title")}
               </h3>
               <p className="text-slate-500 mb-10 max-w-md mx-auto leading-relaxed">
-                感谢您对 Lumina Workspace
-                的关注。您的专属客户经理正在为您分配，我们会通过您预留的邮箱与您取得后续联系。
+                {t("success.desc")}
               </p>
               <button
                 onClick={() => setIsSuccess(false)}
                 className="bg-slate-900 text-white px-8 py-3.5 rounded-full font-bold hover:bg-slate-800 transition-all shadow-[var(--shadow-soft)] hover:-translate-y-0.5">
-                再发送一条线索
+                {t("success.resubmitBtn")}
               </button>
             </div>
           ) : (
@@ -114,7 +112,7 @@ export default function ContactPage() {
                     <label
                       htmlFor="name"
                       className="block text-sm font-bold text-slate-700">
-                      您的姓名 *
+                      {t("form.nameLabel")}
                     </label>
                     <div className="mt-2 text-left">
                       <input
@@ -123,7 +121,7 @@ export default function ContactPage() {
                         type="text"
                         required
                         className="appearance-none block w-full px-4 py-3.5 border border-gray-100 rounded-2xl bg-gray-50/50 font-medium transition-all sm:text-sm outline-none placeholder-gray-400 focus:bg-white focus:ring-2 focus:ring-[#1E60F2]/20 focus:border-[#1E60F2]/50"
-                        placeholder="如：张三"
+                        placeholder={t("form.namePlaceholder")}
                       />
                     </div>
                   </div>
@@ -132,7 +130,7 @@ export default function ContactPage() {
                     <label
                       htmlFor="phone"
                       className="block text-sm font-bold text-slate-700">
-                      手机号 / 微信号 *
+                      {t("form.contactLabel")}
                     </label>
                     <div className="mt-2 text-left">
                       <input
@@ -141,7 +139,7 @@ export default function ContactPage() {
                         type="text"
                         required
                         className="appearance-none block w-full px-4 py-3.5 border border-gray-100 rounded-2xl bg-gray-50/50 font-medium transition-all sm:text-sm outline-none placeholder-gray-400 focus:bg-white focus:ring-2 focus:ring-[#1E60F2]/20 focus:border-[#1E60F2]/50"
-                        placeholder="方便我们及时联络您"
+                        placeholder={t("form.contactPlaceholder")}
                       />
                     </div>
                   </div>
@@ -152,7 +150,7 @@ export default function ContactPage() {
                     <label
                       htmlFor="email"
                       className="block text-sm font-bold text-slate-700">
-                      电子邮箱
+                      {t("form.emailLabel")}
                     </label>
                     <div className="mt-2 text-left">
                       <input
@@ -160,7 +158,7 @@ export default function ContactPage() {
                         name="email"
                         type="email"
                         className="appearance-none block w-full px-4 py-3.5 border border-gray-100 rounded-2xl bg-gray-50/50 font-medium transition-all sm:text-sm outline-none placeholder-gray-400 focus:bg-white focus:ring-2 focus:ring-[#1E60F2]/20 focus:border-[#1E60F2]/50"
-                        placeholder="（可选）you@example.com"
+                        placeholder={t("form.emailPlaceholder")}
                       />
                     </div>
                   </div>
@@ -169,7 +167,7 @@ export default function ContactPage() {
                     <label
                       htmlFor="company"
                       className="block text-sm font-bold text-slate-700">
-                      公司/团队名称
+                      {t("form.companyLabel")}
                     </label>
                     <div className="mt-2 text-left">
                       <input
@@ -177,7 +175,7 @@ export default function ContactPage() {
                         name="company"
                         type="text"
                         className="appearance-none block w-full px-4 py-3.5 border border-gray-100 rounded-2xl bg-gray-50/50 font-medium transition-all sm:text-sm outline-none placeholder-gray-400 focus:bg-white focus:ring-2 focus:ring-[#1E60F2]/20 focus:border-[#1E60F2]/50"
-                        placeholder="（可选）"
+                        placeholder={t("form.companyPlaceholder")}
                       />
                     </div>
                   </div>
@@ -187,7 +185,7 @@ export default function ContactPage() {
                   <label
                     htmlFor="message"
                     className="block text-sm font-bold text-slate-700">
-                    需求描述 *
+                    {t("form.contentLabel")}
                   </label>
                   <div className="mt-2 text-left">
                     <textarea
@@ -196,7 +194,7 @@ export default function ContactPage() {
                       rows={5}
                       required
                       className="appearance-none block w-full px-4 py-3.5 border border-gray-100 rounded-2xl bg-gray-50/50 font-medium transition-all sm:text-sm outline-none placeholder-gray-400 focus:bg-white focus:ring-2 focus:ring-[#1E60F2]/20 focus:border-[#1E60F2]/50 resize-none"
-                      placeholder="请尽量详细地描述您的合作意向或遇到的问题..."
+                      placeholder={t("form.contentPlaceholder")}
                     />
                   </div>
                 </div>
@@ -215,7 +213,7 @@ export default function ContactPage() {
                       <Loader2 className="w-5 h-5 animate-spin" />
                     ) : (
                       <>
-                        安全提交预留信息
+                        {t("form.submitBtn")}
                         <ArrowRight className="ml-2 w-4 h-4 opacity-70 group-hover:translate-x-1 transition-transform" />
                       </>
                     )}
@@ -226,7 +224,8 @@ export default function ContactPage() {
                 <Link
                   href="/"
                   className="inline-flex items-center text-sm font-bold text-slate-400 hover:text-slate-900 transition-colors">
-                  <ArrowRight className="w-4 h-4 mr-2 rotate-180" /> 返回首页
+                  <ArrowRight className="w-4 h-4 mr-2 rotate-180" />{" "}
+                  {t("backToHome")}
                 </Link>
               </div>
             </div>
