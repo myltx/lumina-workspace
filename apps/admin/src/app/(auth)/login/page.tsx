@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Loader2, ArrowRight, ShieldCheck, Lock } from "lucide-react";
+import { Loader2, ArrowRight, ShieldCheck, Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import clsx from "clsx";
 
@@ -11,6 +11,7 @@ export default function AdminLoginPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -106,19 +107,26 @@ export default function AdminLoginPage() {
                 <input
                   id="password"
                   name="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   required
                   className={clsx(
-                    "appearance-none block w-full px-4 py-3.5 border rounded-2xl bg-gray-50/50 font-medium transition-all sm:text-sm outline-none",
+                    "appearance-none block w-full px-4 py-3.5 border rounded-2xl bg-gray-50/50 font-medium transition-all sm:text-sm outline-none pr-12",
                     hasError
                       ? "border-red-200 focus:ring-2 focus:ring-red-500/20 focus:border-red-500/50 placeholder-red-300"
                       : "border-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-slate-900/20 focus:border-slate-900/50",
                   )}
                   placeholder="请输入您的安全密码"
                 />
-                <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
-                  <Lock className="h-5 w-5 text-gray-400" />
-                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-slate-600 transition-colors focus:outline-none">
+                  {showPassword ? (
+                    <EyeOff className="h-5 w-5" />
+                  ) : (
+                    <Eye className="h-5 w-5" />
+                  )}
+                </button>
               </div>
             </div>
 
