@@ -9,6 +9,8 @@ import LanguageSwitcher from "@/components/common/LanguageSwitcher";
 import { toast } from "sonner";
 import clsx from "clsx";
 
+import { signIn } from "next-auth/react";
+
 export default function LoginPage() {
   const t = useTranslations("Login");
   const router = useRouter();
@@ -26,29 +28,36 @@ export default function LoginPage() {
     setHasError(false);
     setIsLoading(true);
 
-    // Simulate API delay
-    await new Promise((resolve) => setTimeout(resolve, 1200));
-
-    // Simple validation simulation
     if (password.length < 6) {
       setHasError(true);
-      toast.error("密码不正确: 请至少输入 6 位密码");
+      toast.error("密码格式不正确");
       setIsLoading(false);
       return;
     }
 
-    if (email !== "demo@luminaworkspace.com" && email !== "admin@a.com") {
-      toast.success("模拟登录成功，即将进入控制台！");
-      setTimeout(() => {
-        router.push("/dashboard");
-      }, 1000);
-      return;
-    }
+    try {
+      const res = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
 
-    // Example specific errors
-    setHasError(true);
-    toast.error("账号或密码错误");
-    setIsLoading(false);
+      if (res?.error) {
+        setHasError(true);
+        toast.error("账号或密码错误");
+        return;
+      }
+
+      toast.success("登录成功，即将进入控制台！");
+      router.push("/dashboard");
+      router.refresh();
+    } catch (error) {
+      console.error(error);
+      setHasError(true);
+      toast.error("服务器响应异常，请重试");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
