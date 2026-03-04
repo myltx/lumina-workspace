@@ -1,0 +1,32 @@
+
+> web@0.1.0 dev /Users/mayunlong/personal/code/project/tjkj/apps/web
+> next dev
+
+⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of /Users/mayunlong/pnpm-lock.yaml as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * /Users/mayunlong/personal/code/project/tjkj/pnpm-lock.yaml
+
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.59.208:3000
+- Environments: .env
+
+✓ Starting...
+⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+Unhandled Rejection: Error: Both middleware file "./src/middleware.ts" and proxy file "./src/proxy.ts" are detected. Please use "./src/proxy.ts" only. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+    at ignore-listed frames
+✓ Ready in 24.5s
+✓ Compiled in 188ms
+ HEAD / 200 in 1245ms (compile: 916ms, proxy.ts: 101ms, render: 227ms)
+✓ Compiled in 300ms
+ GET / 200 in 184ms (compile: 11ms, proxy.ts: 99ms, render: 74ms)
+ HEAD / 200 in 40ms (compile: 6ms, proxy.ts: 5ms, render: 30ms)
+ HEAD /dashboard 200 in 570ms (compile: 509ms, proxy.ts: 5ms, render: 56ms)
+ GET /dashboard 200 in 84ms (compile: 7ms, proxy.ts: 5ms, render: 72ms)
+✓ Compiled in 47ms
+[AUTH DEBUG] path: /dashboard, withoutLocale: /dashboard, isLoggedIn: false, isAuthRoute: false, isPublicRoute: false
+[AUTH DEBUG] Blocking access to /dashboard
+ GET /dashboard 200 in 229ms (compile: 41ms, proxy.ts: 134ms, render: 55ms)

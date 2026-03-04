@@ -27,6 +27,11 @@ export default function LandingPage() {
         <div className="hidden md:flex items-center space-x-6">
           <LanguageSwitcher />
           <Link
+            href="/contact"
+            className="text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors">
+            联系我们
+          </Link>
+          <Link
             href="/login"
             className="text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors">
             {t("nav.login")}
@@ -56,6 +61,12 @@ export default function LandingPage() {
       {/* Mobile Dropdown Menu */}
       <div
         className={`fixed inset-0 top-[72px] bg-white z-40 transition-transform duration-300 ease-in-out md:hidden flex flex-col px-6 py-6 space-y-4 ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"}`}>
+        <Link
+          href="/contact"
+          onClick={() => setIsMobileMenuOpen(false)}
+          className="text-base font-bold text-slate-900 w-full text-center py-3.5 border border-gray-100 rounded-xl shadow-sm">
+          联系我们
+        </Link>
         <Link
           href="/login"
           onClick={() => setIsMobileMenuOpen(false)}

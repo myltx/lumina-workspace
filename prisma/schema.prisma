@@ -11,11 +11,11 @@ datasource db {
 }
 
 enum Role {
-  USER // 默认普通用户
-  PRO_USER // 付费高级用户
-  CS // 客服专员 (Customer Service)
-  EDITOR // 内容编辑 (CMS Editor)
-  ADMIN // 超级管理员 (Super Admin)
+  USER // 1. 普通注册用户
+  AFFILIATE // 2. 代理商/返佣人
+  CS_SALES // 3. 基层业务员 (客服+销售的一线执行者)
+  MANAGER // 4. 业务/运营主管 (内容发布、客服管理)
+  ADMIN // 5. 超级系统管理员
 }
 
 enum UserStatus {
@@ -24,21 +24,30 @@ enum UserStatus {
   SUSPENDED // 暂停
 }
 
+enum MembershipTier {
+  FREE // 免费试用/基础档
+  PRO // 包月/高级订阅
+  EA_LIFETIME // EA终生买断授权
+}
+
 model User {
-  id            String     @id @default(cuid())
+  id            String         @id @default(cuid())
   name          String?
-  email         String?    @unique
+  username      String?        @unique
+  email         String?        @unique
   emailVerified DateTime?
   password      String? // 存放散列加密后的密码
   image         String?
-  role          Role       @default(USER)
-  status        UserStatus @default(ACTIVE)
+  role          Role           @default(USER)
+  tier          MembershipTier @default(FREE)
+  status        UserStatus     @default(ACTIVE)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   accounts Account[]
   sessions Session[]
+  posts    Post[]
 }
 
 // NextAuth 适配的标准化 Account 模型 (用于未来接入 Google/GitHub 第三方登录)
@@ -77,4 +86,71 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+// ---------------------------------------------------------------------------
+// 业务模型架构 (Business Models)
+// ---------------------------------------------------------------------------
+
+enum PostStatus {
+  DRAFT // 草稿
+  PUBLISHED // 已发布
+  ARCHIVED // 已归档
+}
+
+enum PostCategory {
+  ANNOUNCEMENT // 系统公告
+  TUTORIAL // 教学视频/干货研报
+  RELEASE // 软件更新/资源下载
+}
+
+// 内容管理模型 (全栈共建：用于发布文章、更新日志、帮助中心等)
+model Post {
+  id         String       @id @default(cuid())
+  title      String // 文章标题
+  slug       String       @unique // 方便用于 SEO 友好的 URL: /blog/my-first-post
+  content    String       @db.LongText // 存储 Markdown 或 HTML 内容
+  excerpt    String?      @db.Text // 文章摘要
+  coverImage String? // 封面图 URL
+  status     PostStatus   @default(DRAFT)
+  category   PostCategory @default(ANNOUNCEMENT) // 分类维度
+
+  // 可附加的多媒体与资源链接
+  videoUrl    String? // 用于教学视频页的内嵌链接
+  downloadUrl String? // 用于更新系统包下载的链接
+  tags        String? // 逗号分隔的 SEO/检索标签标签
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+
+  publishedAt DateTime? // 实际的发布时间
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([slug])
+}
+
+enum LeadStatus {
+  UNREAD // 未读
+  READ // 已读/跟进中
+  REPLIED // 已回复/转化
+  ARCHIVED // 已废弃/归档
+}
+
+// 用户意向线索模型 (用于 C 端表单提交，B 端跟进)
+model Lead {
+  id      String     @id @default(cuid())
+  name    String
+  wechat  String? // 微信号
+  phone   String? // 手机号
+  email   String? // 邮箱 (降级为选填)
+  company String?
+  message String     @db.Text
+  status  LeadStatus @default(UNREAD)
+
+  // 可以记录提交表单时的 IP 来源或页面渠道等额外信息
+  source String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

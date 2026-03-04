@@ -1,0 +1,24 @@
+
+> web@0.1.0 dev /Users/mayunlong/personal/code/project/tjkj/apps/web
+> next dev
+
+⚠ Port 3000 is in use by process 51658, using available port 3002 instead.
+⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of /Users/mayunlong/pnpm-lock.yaml as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * /Users/mayunlong/personal/code/project/tjkj/pnpm-lock.yaml
+
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3002
+- Network:       http://192.168.59.208:3002
+- Environments: .env
+
+✓ Starting...
+⨯ Unable to acquire lock at /Users/mayunlong/personal/code/project/tjkj/apps/web/.next/dev/lock, is another instance of next dev running?
+  Suggestion: If you intended to restart next dev, terminate the other process, and then try again.
+[?25h
+/Users/mayunlong/personal/code/project/tjkj/apps/web:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  web@0.1.0 dev: `next dev`
+Exit status 1

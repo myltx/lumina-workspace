@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import {
@@ -7,12 +9,17 @@ import {
   LogOut,
   LayoutDashboard,
   LineChart,
+  Inbox,
+  FileText,
 } from "lucide-react";
+import { signOut } from "next-auth/react";
 
 export default function AdminSidebar() {
   const navItems = [
     { name: "总览", href: "/", icon: LayoutDashboard },
     { name: "用户管理", href: "/users", icon: Users },
+    { name: "线索管理", href: "/leads", icon: Inbox },
+    { name: "内容发布", href: "/cms", icon: FileText },
     { name: "账单与订单", href: "/billing", icon: CreditCard },
     { name: "系统设置", href: "/settings", icon: Settings },
   ];
@@ -61,7 +68,9 @@ export default function AdminSidebar() {
             </p>
           </div>
         </div>
-        <button className="w-full flex items-center justify-center py-2.5 px-4 rounded-xl text-sm font-bold text-slate-600 hover:text-red-600 hover:bg-red-50 transition-colors">
+        <button
+          onClick={() => signOut()}
+          className="w-full flex items-center justify-center py-2.5 px-4 rounded-xl text-sm font-bold text-slate-600 hover:text-red-600 hover:bg-red-50 transition-colors">
           <LogOut className="w-4 h-4 mr-2" />
           安全退出
         </button>

@@ -21,7 +21,10 @@
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.1",
     "@prisma/client": "^6.19.2",
+    "@tailwindcss/typography": "^0.5.19",
     "bcryptjs": "^3.0.3",
-    "next-auth": "5.0.0-beta.30"
+    "next-auth": "5.0.0-beta.30",
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1"
   }
 }
