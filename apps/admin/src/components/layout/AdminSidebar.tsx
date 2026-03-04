@@ -11,6 +11,7 @@ import {
   LineChart,
   Inbox,
   FileText,
+  DownloadCloud,
 } from "lucide-react";
 import { signOut } from "next-auth/react";
 
@@ -20,6 +21,7 @@ export default function AdminSidebar() {
     { name: "用户管理", href: "/users", icon: Users },
     { name: "线索管理", href: "/leads", icon: Inbox },
     { name: "内容发布", href: "/cms", icon: FileText },
+    { name: "应用与分发", href: "/releases", icon: DownloadCloud },
     { name: "账单与订单", href: "/billing", icon: CreditCard },
     { name: "系统设置", href: "/settings", icon: Settings },
   ];
