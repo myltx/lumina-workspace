@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { Link, useRouter } from "@/i18n/routing";
-import { LineChart, ArrowRight, Loader2 } from "lucide-react";
+import { LineChart, ArrowRight, Loader2, Eye, EyeOff } from "lucide-react";
 import { useTranslations } from "next-intl";
 import LanguageSwitcher from "@/components/common/LanguageSwitcher";
 import { toast } from "sonner";
@@ -16,6 +16,8 @@ export default function RegisterPage() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [hasError, setHasError] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -172,20 +174,30 @@ export default function RegisterPage() {
                 className="block text-sm font-bold text-slate-700">
                 {t("passwordLabel")}
               </label>
-              <div className="mt-2">
+              <div className="mt-2 relative">
                 <input
                   id="password"
                   name="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   required
                   className={clsx(
-                    "appearance-none block w-full px-4 py-3.5 border rounded-2xl bg-gray-50/50 font-medium transition-all sm:text-sm outline-none",
+                    "appearance-none block w-full px-4 py-3.5 pr-12 border rounded-2xl bg-gray-50/50 font-medium transition-all sm:text-sm outline-none",
                     hasError
                       ? "border-red-200 focus:ring-2 focus:ring-red-500/20 focus:border-red-500/50 placeholder-red-300"
                       : "border-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-[#1E60F2]/20 focus:border-[#1E60F2]/50",
                   )}
                   placeholder={t("passwordPlaceholder")}
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none">
+                  {showPassword ? (
+                    <EyeOff className="h-5 w-5" aria-hidden="true" />
+                  ) : (
+                    <Eye className="h-5 w-5" aria-hidden="true" />
+                  )}
+                </button>
               </div>
             </div>
 
@@ -195,20 +207,30 @@ export default function RegisterPage() {
                 className="block text-sm font-bold text-slate-700">
                 确认密码 (Confirm Password)
               </label>
-              <div className="mt-2">
+              <div className="mt-2 relative">
                 <input
                   id="confirmPassword"
                   name="confirmPassword"
-                  type="password"
+                  type={showConfirmPassword ? "text" : "password"}
                   required
                   className={clsx(
-                    "appearance-none block w-full px-4 py-3.5 border rounded-2xl bg-gray-50/50 font-medium transition-all sm:text-sm outline-none",
+                    "appearance-none block w-full px-4 py-3.5 pr-12 border rounded-2xl bg-gray-50/50 font-medium transition-all sm:text-sm outline-none",
                     hasError
                       ? "border-red-200 focus:ring-2 focus:ring-red-500/20 focus:border-red-500/50 placeholder-red-300"
                       : "border-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-[#1E60F2]/20 focus:border-[#1E60F2]/50",
                   )}
                   placeholder="请再次输入您的密码"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-gray-600 focus:outline-none">
+                  {showConfirmPassword ? (
+                    <EyeOff className="h-5 w-5" aria-hidden="true" />
+                  ) : (
+                    <Eye className="h-5 w-5" aria-hidden="true" />
+                  )}
+                </button>
               </div>
             </div>
 
