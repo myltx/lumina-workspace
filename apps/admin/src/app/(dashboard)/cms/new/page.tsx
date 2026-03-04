@@ -2,7 +2,15 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Loader2, Save, Link2, Film, Tag } from "lucide-react";
+import {
+  ArrowLeft,
+  Loader2,
+  Save,
+  Link2,
+  Film,
+  Tag,
+  Upload,
+} from "lucide-react";
 import Link from "next/link";
 import { toast } from "sonner";
 import clsx from "clsx";
@@ -13,6 +21,7 @@ export default function CMSNewPostPage() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isPreview, setIsPreview] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -45,6 +54,31 @@ export default function CMSNewPostPage() {
       }));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
+    }
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsUploading(true);
+    const data = new FormData();
+    data.append("file", file);
+
+    try {
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: data,
+      });
+      const result = await res.json();
+      if (!res.ok) throw new Error(result.error || "上传失败");
+
+      setFormData((prev) => ({ ...prev, downloadUrl: result.url }));
+      toast.success("资源包实体上传入库成功！");
+    } catch (err: any) {
+      toast.error(err.message);
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -223,9 +257,25 @@ export default function CMSNewPostPage() {
             </h3>
 
             <div>
-              <label className="flex items-center text-xs font-bold text-slate-600 mb-2">
-                <Link2 className="w-3.5 h-3.5 mr-1.5" /> 资源下载链接
-              </label>
+              <div className="flex items-center justify-between mb-2">
+                <label className="flex items-center text-xs font-bold text-slate-600">
+                  <Link2 className="w-3.5 h-3.5 mr-1.5" /> 资源下载链接
+                </label>
+                <label className="cursor-pointer text-xs font-bold text-[#1E60F2] hover:underline flex items-center">
+                  {isUploading ? (
+                    <Loader2 className="w-3.5 h-3.5 mr-1 animate-spin" />
+                  ) : (
+                    <Upload className="w-3.5 h-3.5 mr-1" />
+                  )}
+                  {isUploading ? "正在物理上传..." : "直接上传文件包"}
+                  <input
+                    type="file"
+                    className="hidden"
+                    onChange={handleFileUpload}
+                    disabled={isUploading}
+                  />
+                </label>
+              </div>
               <input
                 type="url"
                 name="downloadUrl"

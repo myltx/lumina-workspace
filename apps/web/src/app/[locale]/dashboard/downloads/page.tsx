@@ -36,10 +36,10 @@ export default async function DownloadsPage() {
           <div className="xl:col-span-2 bg-[#FAFAFA] rounded-[2rem] p-12 text-center border border-gray-100 flex flex-col items-center justify-center">
             <Monitor className="w-16 h-16 text-slate-300 mb-4" />
             <h3 className="text-xl font-bold text-slate-700 mb-2">
-              暂无软件发布
+              {t("empty.title")}
             </h3>
             <p className="text-slate-500 font-medium max-w-md mx-auto">
-              管理员尚未在云端控制台下发任何可用的软件资源或运行辅助组件，请稍后再来看看。
+              {t("empty.desc")}
             </p>
           </div>
         ) : (
@@ -68,7 +68,7 @@ export default async function DownloadsPage() {
                     )}
                   </div>
                   <div className="text-xs text-slate-400 font-medium mb-4 flex items-center">
-                    发布于{" "}
+                    {t("publishDate")}{" "}
                     {dayjs(release.publishedAt || release.createdAt).format(
                       "YYYY-MM-DD",
                     )}
@@ -90,13 +90,13 @@ export default async function DownloadsPage() {
                         : "bg-white text-slate-700 border border-gray-200 shadow-sm hover:bg-gray-50"
                     }`}>
                     <DownloadCloud className="w-5 h-5 mr-2" />
-                    下载资源包
+                    {t("downloadAction")}
                   </a>
                 ) : (
                   <button
                     disabled
                     className="mt-10 mx-auto w-full max-w-md bg-gray-100 text-gray-400 py-4 rounded-xl font-bold cursor-not-allowed flex items-center justify-center">
-                    暂未提供下载链接
+                    {t("noDownloadUrl")}
                   </button>
                 )}
               </div>

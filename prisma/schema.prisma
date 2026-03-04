@@ -48,6 +48,7 @@ model User {
   accounts Account[]
   sessions Session[]
   posts    Post[]
+  releases Release[]
 }
 
 // NextAuth 适配的标准化 Account 模型 (用于未来接入 Google/GitHub 第三方登录)
@@ -101,7 +102,6 @@ enum PostStatus {
 enum PostCategory {
   ANNOUNCEMENT // 系统公告
   TUTORIAL // 教学视频/干货研报
-  RELEASE // 软件更新/资源下载
 }
 
 // 内容管理模型 (全栈共建：用于发布文章、更新日志、帮助中心等)
@@ -153,4 +153,41 @@ model Lead {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+// ---------------------------------------------------------------------------
+// 软件版本与分发库 (Software Releases)
+// ---------------------------------------------------------------------------
+
+enum ReleaseStatus {
+  DRAFT // 草稿 (组装安装包阶段)
+  PUBLISHED // 已上线展示
+  DEPRECATED // 已下线废弃
+}
+
+model Release {
+  id          String        @id @default(cuid())
+  version     String // 版本号标志 (例如: v1.0.0, v2.1 Beta)
+  platform    String        @default("MT5") // 适用的操作系统或基座 (如 Windows, MT5, MT4)
+  title       String // 发版标题 (例如: 破晓版大逃杀模式上线)
+  changelog   String        @db.LongText // Mrakdown 格式记录的详细更新日志记录
+  downloadUrl String? // 所挂载的二进制文件直链 (OSS/本地Uploads)
+  isLatest    Boolean       @default(false) // 核心标记: 是否为 C 端当前力推的最新主版本
+  status      ReleaseStatus @default(DRAFT)
+
+  // -------------------------------------------------------------------------
+  // [未来扩展预留区 / Backlog] 
+  // 为后期的硬件鉴权(一机一码)、按月试用授权(Subscription) 预留的安全隔离阀
+  // -------------------------------------------------------------------------
+  // requireDeviceBinding Boolean @default(true) // 开启后，C端下载的EA强校验用户本机会话和硬件指纹
+  // requiredMinimumTier  MembershipTier @default(PRO) // 例如只有PRO级别才能下载/运行该版本
+
+  authorId String
+  author   User   @relation(fields: [authorId], references: [id])
+
+  publishedAt DateTime? // 允许管理员定档或定时发布
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@index([version, isLatest])
 }

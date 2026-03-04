@@ -162,6 +162,13 @@
         "desc": "Install directly into your MetaTrader 5 Experts folder. Supports 24/7 automated trading based on web console signals.",
         "downloadBtn": "Download EA (.ex5)"
       },
+      "empty": {
+        "title": "No Software Releases Yet",
+        "desc": "The administrator has not published any software resources or components yet. Please check back later."
+      },
+      "publishDate": "Published on ",
+      "downloadAction": "Download Package",
+      "noDownloadUrl": "No Download Link Provided",
       "api": {
         "title": "API Helper Scripts",
         "desc": "For developers who need advanced customization to manually call our AI interface.",
