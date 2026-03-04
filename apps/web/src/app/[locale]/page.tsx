@@ -1,86 +1,28 @@
-"use client";
+import { getTranslations } from "next-intl/server";
+import LandingNavbar from "@/components/layout/LandingNavbar";
+import { prisma } from "@/lib/prisma";
+import dayjs from "dayjs";
+import { ArrowRight, Bell } from "lucide-react";
 
-import { useState } from "react";
-import { Link } from "@/i18n/routing";
-import LanguageSwitcher from "@/components/common/LanguageSwitcher";
-import { Menu, X } from "lucide-react";
-import { useTranslations } from "next-intl";
+export const dynamic = "force-dynamic";
 
-export default function LandingPage() {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const t = useTranslations("Index");
+export default async function LandingPage() {
+  const t = await getTranslations("Index");
+
+  const announcements = await prisma.post.findMany({
+    where: {
+      category: "ANNOUNCEMENT",
+      status: "PUBLISHED",
+    },
+    orderBy: {
+      publishedAt: "desc",
+    },
+    take: 3,
+  });
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] flex flex-col relative overflow-hidden">
-      {/* 顶部极简导航 */}
-      <nav className="w-full absolute top-0 left-0 z-50 px-6 py-4 md:px-8 md:py-6 lg:px-16 flex items-center justify-between">
-        <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#1E60F2] to-blue-400 flex items-center justify-center shadow-lg shadow-blue-500/30">
-            <div className="w-4 h-4 text-white">📈</div>
-          </div>
-          <span className="text-xl font-extrabold text-slate-900 tracking-tight">
-            Lumina Workspace
-          </span>
-        </div>
-
-        {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-6">
-          <LanguageSwitcher />
-          <Link
-            href="/contact"
-            className="text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors">
-            联系我们
-          </Link>
-          <Link
-            href="/login"
-            className="text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors">
-            {t("nav.login")}
-          </Link>
-          <Link
-            href="/register"
-            className="text-sm font-bold bg-slate-900 text-white px-6 py-2.5 rounded-full hover:bg-slate-800 transition-all shadow-[var(--shadow-soft)] hover:-translate-y-0.5">
-            {t("nav.getStarted")}
-          </Link>
-        </div>
-
-        {/* Mobile Menu Button */}
-        <div className="flex items-center space-x-4 md:hidden">
-          <LanguageSwitcher />
-          <button
-            className="p-2 text-slate-600 focus:outline-none"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-            {isMobileMenuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
-          </button>
-        </div>
-      </nav>
-
-      {/* Mobile Dropdown Menu */}
-      <div
-        className={`fixed inset-0 top-[72px] bg-white z-40 transition-transform duration-300 ease-in-out md:hidden flex flex-col px-6 py-6 space-y-4 ${isMobileMenuOpen ? "translate-x-0" : "translate-x-full"}`}>
-        <Link
-          href="/contact"
-          onClick={() => setIsMobileMenuOpen(false)}
-          className="text-base font-bold text-slate-900 w-full text-center py-3.5 border border-gray-100 rounded-xl shadow-sm">
-          联系我们
-        </Link>
-        <Link
-          href="/login"
-          onClick={() => setIsMobileMenuOpen(false)}
-          className="text-base font-bold text-slate-900 w-full text-center py-3.5 border border-gray-100 rounded-xl shadow-sm">
-          {t("nav.loginDashboard")}
-        </Link>
-        <Link
-          href="/register"
-          onClick={() => setIsMobileMenuOpen(false)}
-          className="text-base font-bold bg-[#1E60F2] text-white w-full text-center py-3.5 rounded-xl shadow-md">
-          {t("nav.freeStart")}
-        </Link>
-      </div>
-
+      <LandingNavbar />
       {/* Hero 首屏核心主体 (应用超级字号与大留白) */}
       <main className="flex-1 flex items-center justify-center pt-28 pb-16 md:pt-32 md:pb-24 px-6 md:px-12 relative z-10">
         <div className="max-w-5xl mx-auto text-center">
@@ -160,6 +102,60 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* 全新动态资讯区：系统公告与投研快讯 (CMS驱动) */}
+      {announcements.length > 0 && (
+        <section className="py-16 md:py-24 bg-[#FAFAFA] relative z-10 w-full border-t border-gray-100">
+          <div className="max-w-7xl mx-auto px-6 lg:px-12">
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 md:mb-16">
+              <div>
+                <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 mb-4">
+                  最新系统公告与发布
+                </h2>
+                <p className="text-lg text-slate-500 max-w-2xl font-medium">
+                  时刻了解平台最新的量化策略迭代、维护信息与行业快讯。
+                </p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {announcements.map(
+                (post: {
+                  id: string;
+                  title: string;
+                  excerpt: string | null;
+                  content: string;
+                  publishedAt: Date | null;
+                  createdAt: Date;
+                }) => (
+                  <div
+                    key={post.id}
+                    className="bg-white rounded-[2rem] p-8 shadow-sm hover:shadow-[var(--shadow-float)] transition-all duration-300 border border-gray-100 flex flex-col group">
+                    <div className="flex items-center space-x-2 text-slate-400 font-bold text-sm mb-4">
+                      <Bell className="w-4 h-4 text-[#1E60F2]" />
+                      <span>
+                        {dayjs(post.publishedAt || post.createdAt).format(
+                          "YYYY-MM-DD",
+                        )}
+                      </span>
+                    </div>
+                    <h3 className="text-xl font-bold text-slate-900 mb-4 leading-tight group-hover:text-[#1E60F2] transition-colors">
+                      {post.title}
+                    </h3>
+                    <p className="text-slate-500 font-medium mb-6 line-clamp-3">
+                      {post.excerpt || post.content.substring(0, 80) + "..."}
+                    </p>
+                    <div className="mt-auto flex items-center text-[#1E60F2] font-bold text-sm">
+                      查看详情{" "}
+                      <ArrowRight className="w-4 h-4 ml-1 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+                    </div>
+                  </div>
+                ),
+              )}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* 数据壁垒区 */}
       <section className="py-16 md:py-24 bg-slate-900 text-white relative z-10 w-full overflow-hidden">

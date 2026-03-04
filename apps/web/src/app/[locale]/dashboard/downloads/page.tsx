@@ -1,9 +1,24 @@
 import React from "react";
-import { DownloadCloud, Monitor, FileCode2, Copy } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { DownloadCloud, Monitor, Copy } from "lucide-react";
+import { getTranslations } from "next-intl/server";
+import { prisma } from "@/lib/prisma";
+import dayjs from "dayjs";
+import { Post } from "@prisma/client";
 
-export default function DownloadsPage() {
-  const t = useTranslations("Dashboard.Downloads");
+export const dynamic = "force-dynamic";
+
+export default async function DownloadsPage() {
+  const t = await getTranslations("Dashboard.Downloads");
+
+  const releases: Post[] = await prisma.post.findMany({
+    where: {
+      category: "RELEASE",
+      status: "PUBLISHED",
+    },
+    orderBy: {
+      publishedAt: "desc",
+    },
+  });
 
   return (
     <div className="space-y-8">
@@ -16,51 +31,78 @@ export default function DownloadsPage() {
         </div>
       </header>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {/* 核心 EA 下载 */}
-        <div className="bg-white rounded-[2rem] p-10 shadow-[var(--shadow-soft)] border border-gray-50 flex flex-col justify-between">
-          <div>
-            <div className="w-16 h-16 bg-blue-50 rounded-[1.5rem] flex items-center justify-center mb-6 border border-blue-100">
-              <Monitor className="w-8 h-8 text-[#1E60F2]" />
-            </div>
-            <div className="flex items-center space-x-3 mb-2">
-              <h2 className="text-2xl font-bold text-slate-900">
-                {t("ea.title")}
-              </h2>
-              <span className="text-xs font-extrabold text-[#1E60F2] bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
-                v4.5.1
-              </span>
-            </div>
-            <p className="text-slate-500 font-medium leading-relaxed mt-4">
-              {t("ea.desc")}
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+        {releases.length === 0 ? (
+          <div className="xl:col-span-2 bg-[#FAFAFA] rounded-[2rem] p-12 text-center border border-gray-100 flex flex-col items-center justify-center">
+            <Monitor className="w-16 h-16 text-slate-300 mb-4" />
+            <h3 className="text-xl font-bold text-slate-700 mb-2">
+              暂无软件发布
+            </h3>
+            <p className="text-slate-500 font-medium max-w-md mx-auto">
+              管理员尚未在云端控制台下发任何可用的软件资源或运行辅助组件，请稍后再来看看。
             </p>
           </div>
+        ) : (
+          releases.map((release, index) => {
+            // Give even index a blue theme and odd index a gray theme for aesthetic variation
+            const isPrimary = index % 2 === 0;
+            return (
+              <div
+                key={release.id}
+                className={`rounded-[2rem] p-8 md:p-10 shadow-[var(--shadow-soft)] border flex flex-col justify-between ${isPrimary ? "bg-white border-blue-50" : "bg-[#FAFAFA] border-gray-100"}`}>
+                <div>
+                  <div
+                    className={`w-16 h-16 rounded-[1.5rem] flex items-center justify-center mb-6 shadow-sm border ${isPrimary ? "bg-blue-50 border-blue-100" : "bg-white border-gray-200"}`}>
+                    <Monitor
+                      className={`w-8 h-8 ${isPrimary ? "text-[#1E60F2]" : "text-slate-700"}`}
+                    />
+                  </div>
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-2">
+                    <h2 className="text-2xl font-bold text-slate-900 leading-tight">
+                      {release.title}
+                    </h2>
+                    {release.tags && (
+                      <span className="shrink-0 text-xs font-extrabold text-[#1E60F2] bg-blue-50 px-3 py-1.5 rounded-full border border-blue-100">
+                        {release.tags.split(",")[0]}
+                      </span>
+                    )}
+                  </div>
+                  <div className="text-xs text-slate-400 font-medium mb-4 flex items-center">
+                    发布于{" "}
+                    {dayjs(release.publishedAt || release.createdAt).format(
+                      "YYYY-MM-DD",
+                    )}
+                  </div>
+                  <p className="text-slate-500 font-medium leading-relaxed max-w-lg min-h-[3rem]">
+                    {release.excerpt ||
+                      release.content.substring(0, 100) + "..."}
+                  </p>
+                </div>
 
-          <button className="mt-10 w-full bg-[#1E60F2] text-white py-4 rounded-xl font-bold shadow-[var(--shadow-float)] hover:-translate-y-1 hover:bg-[#1748b6] transition-all flex items-center justify-center">
-            <DownloadCloud className="w-5 h-5 mr-2" />
-            {t("ea.downloadBtn")}
-          </button>
-        </div>
-
-        {/* 脚本辅助工具 */}
-        <div className="bg-[#FAFAFA] rounded-[2rem] p-10 border border-gray-100 flex flex-col justify-between">
-          <div>
-            <div className="w-16 h-16 bg-white rounded-[1.5rem] flex items-center justify-center mb-6 shadow-sm">
-              <FileCode2 className="w-8 h-8 text-slate-700" />
-            </div>
-            <h2 className="text-2xl font-bold text-slate-900 mb-2">
-              {t("api.title")}
-            </h2>
-            <p className="text-slate-500 font-medium leading-relaxed mt-4">
-              {t("api.desc")}
-            </p>
-          </div>
-
-          <button className="mt-10 w-full bg-white text-slate-700 border border-gray-200 py-4 rounded-xl font-bold shadow-sm hover:bg-gray-50 transition-all flex items-center justify-center">
-            <DownloadCloud className="w-5 h-5 mr-2" />
-            {t("api.downloadBtn")}
-          </button>
-        </div>
+                {release.downloadUrl ? (
+                  <a
+                    href={release.downloadUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`mt-10 w-full py-4 rounded-xl font-bold transition-all flex items-center justify-center ${
+                      isPrimary
+                        ? "bg-[#1E60F2] text-white shadow-[var(--shadow-float)] hover:-translate-y-1 hover:bg-[#1748b6]"
+                        : "bg-white text-slate-700 border border-gray-200 shadow-sm hover:bg-gray-50"
+                    }`}>
+                    <DownloadCloud className="w-5 h-5 mr-2" />
+                    下载资源包
+                  </a>
+                ) : (
+                  <button
+                    disabled
+                    className="mt-10 mx-auto w-full max-w-md bg-gray-100 text-gray-400 py-4 rounded-xl font-bold cursor-not-allowed flex items-center justify-center">
+                    暂未提供下载链接
+                  </button>
+                )}
+              </div>
+            );
+          })
+        )}
       </div>
 
       {/* API Token 配置区提示 */}
