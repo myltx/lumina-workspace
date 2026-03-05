@@ -1,0 +1,15 @@
+Dockerfile
+.dockerignore
+node_modules
+apps/web/node_modules
+apps/admin/node_modules
+npm-debug.log
+README.md
+.next
+apps/web/.next
+apps/admin/.next
+.git
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local

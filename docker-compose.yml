@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  lumina-web:
+    image: lumina-web:latest
+    container_name: lumina-web
+    restart: always
+    ports:
+      - "4000:3000" # 宿主机端口 4000 映射到容器内 3000
+    environment:
+      - NODE_ENV=production
+      # - DATABASE_URL=mysql://user:pass@172.17.0.1:3306/lumnia # 替换为您服务器真实的数据库账号密码
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  lumina-admin:
+    image: lumina-admin:latest
+    container_name: lumina-admin
+    restart: always
+    ports:
+      - "4001:3001" # 宿主机端口 4001 映射到容器内 3001
+    environment:
+      - NODE_ENV=production
+      # - DATABASE_URL=mysql://user:pass@172.17.0.1:3306/lumnia # 同上
+    volumes:
+      # 持久化挂载 Admin 的上传包目录，确保物理机重启不丢包
+      - ./uploads:/app/apps/admin/public/uploads
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
