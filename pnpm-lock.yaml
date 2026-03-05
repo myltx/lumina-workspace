@@ -13,7 +13,7 @@ importers:
         version: 2.11.1(@prisma/client@6.19.2)
       '@prisma/client':
         specifier: ^6.19.2
-        version: 6.19.2(prisma@6.19.2)
+        version: 6.19.2(prisma@6.19.2)(typescript@5.9.3)
       '@tailwindcss/typography':
         specifier: ^0.5.19
         version: 0.5.19
@@ -39,6 +39,9 @@ importers:
 
   apps/admin:
     dependencies:
+      '@lumina/core':
+        specifier: workspace:*
+        version: link:../../packages/core
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -134,6 +137,9 @@ importers:
 
   apps/web:
     dependencies:
+      '@lumina/core':
+        specifier: workspace:*
+        version: link:../../packages/core
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -193,6 +199,22 @@ importers:
         specifier: ^5
         version: 5.9.3
 
+  packages/core:
+    dependencies:
+      '@prisma/client':
+        specifier: ^6.19.2
+        version: 6.19.2(prisma@6.19.2)(typescript@5.9.3)
+      dayjs:
+        specifier: ^1.11.10
+        version: 1.11.19
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.35
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
 packages:
 
   /@alloc/quick-lru@5.2.0:
@@ -248,7 +270,7 @@ packages:
       '@prisma/client': '>=2.26.0 || >=3 || >=4 || >=5 || >=6'
     dependencies:
       '@auth/core': 0.41.1
-      '@prisma/client': 6.19.2(prisma@6.19.2)
+      '@prisma/client': 6.19.2(prisma@6.19.2)(typescript@5.9.3)
     transitivePeerDependencies:
       - '@simplewebauthn/browser'
       - '@simplewebauthn/server'
@@ -1072,7 +1094,7 @@ packages:
       '@parcel/watcher-win32-x64': 2.5.6
     dev: false
 
-  /@prisma/client@6.19.2(prisma@6.19.2):
+  /@prisma/client@6.19.2(prisma@6.19.2)(typescript@5.9.3):
     resolution: {integrity: sha512-gR2EMvfK/aTxsuooaDA32D8v+us/8AAet+C3J1cc04SW35FPdZYgLF+iN4NDLUgAaUGTKdAB0CYenu1TAgGdMg==}
     engines: {node: '>=18.18'}
     requiresBuild: true
@@ -1086,6 +1108,7 @@ packages:
         optional: true
     dependencies:
       prisma: 6.19.2
+      typescript: 5.9.3
     dev: false
 
   /@prisma/config@6.19.2:

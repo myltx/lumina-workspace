@@ -1,7 +1,7 @@
 import React from "react";
 import { PlayCircle, ExternalLink, VideoOff } from "lucide-react";
 import { getTranslations } from "next-intl/server";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@lumina/core";
 import dayjs from "dayjs";
 
 export const dynamic = "force-dynamic";

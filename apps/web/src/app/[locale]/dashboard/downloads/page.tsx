@@ -8,7 +8,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { getTranslations } from "next-intl/server";
-import { prisma } from "@/lib/prisma";
+import { prisma, checkMT5Auth } from "@lumina/core";
 import dayjs from "dayjs";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -28,21 +28,11 @@ export default async function DownloadsPage() {
     },
   });
 
-  // 获取当前登录用户并判断授权状态
+  // 获取当前登录用户并判断授权状态 (跨项目服务调用)
   const session = await auth();
   let isAuthorized = false;
   if (session?.user?.id) {
-    const currentUser = await prisma.user.findUnique({
-      where: { id: session.user.id },
-      select: { expireDate: true, mt5Serial: true },
-    });
-    // 如果有到期时间，且当前时间早于到期时间，则判定为已授权
-    if (
-      currentUser?.expireDate &&
-      dayjs(currentUser.expireDate).isAfter(dayjs())
-    ) {
-      isAuthorized = true;
-    }
+    isAuthorized = await checkMT5Auth(session.user.id);
   }
 
   const latestRelease = releases.find((r) => r.isLatest) || releases[0];

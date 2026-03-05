@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/routing";
 import LandingNavbar from "@/components/layout/LandingNavbar";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@lumina/core";
 import dayjs from "dayjs";
 import {
   ArrowRight,

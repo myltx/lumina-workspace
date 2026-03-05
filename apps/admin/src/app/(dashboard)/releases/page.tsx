@@ -8,7 +8,7 @@ import {
   CheckCircle2,
   CircleDashed,
 } from "lucide-react";
-import { prisma } from "@/lib/prisma";
+import { prisma } from "@lumina/core";
 import dayjs from "dayjs";
 
 export const dynamic = "force-dynamic";
