@@ -12,6 +12,7 @@ import { prisma } from "@/lib/prisma";
 import dayjs from "dayjs";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { auth } from "@/auth";
 
 export const dynamic = "force-dynamic";
 
@@ -26,6 +27,23 @@ export default async function DownloadsPage() {
       publishedAt: "desc",
     },
   });
+
+  // 获取当前登录用户并判断授权状态
+  const session = await auth();
+  let isAuthorized = false;
+  if (session?.user?.id) {
+    const currentUser = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: { expireDate: true, mt5Serial: true },
+    });
+    // 如果有到期时间，且当前时间早于到期时间，则判定为已授权
+    if (
+      currentUser?.expireDate &&
+      dayjs(currentUser.expireDate).isAfter(dayjs())
+    ) {
+      isAuthorized = true;
+    }
+  }
 
   const latestRelease = releases.find((r) => r.isLatest) || releases[0];
   const historyReleases = releases.filter((r) => r.id !== latestRelease?.id);
@@ -97,14 +115,22 @@ export default async function DownloadsPage() {
 
                 <div className="w-full max-w-sm">
                   {latestRelease.downloadUrl ? (
-                    <a
-                      href={latestRelease.downloadUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full py-4 rounded-xl font-bold transition-all flex items-center justify-center bg-[#1E60F2] text-white shadow-[var(--shadow-float)] hover:-translate-y-1 hover:bg-[#1748b6]">
-                      <DownloadCloud className="w-5 h-5 mr-2" />立 即 下 载 安
-                      装 包
-                    </a>
+                    isAuthorized ? (
+                      <a
+                        href={latestRelease.downloadUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full py-4 rounded-xl font-bold transition-all flex items-center justify-center bg-[#1E60F2] text-white shadow-[var(--shadow-float)] hover:-translate-y-1 hover:bg-[#1748b6]">
+                        <DownloadCloud className="w-5 h-5 mr-2" />立 即 下 载 安
+                        装 包
+                      </a>
+                    ) : (
+                      <button
+                        disabled
+                        className="w-full bg-red-50 border border-red-100 text-red-400 py-4 rounded-xl font-bold cursor-not-allowed flex items-center justify-center">
+                        当前 MT5 未授权或已过期
+                      </button>
+                    )
                   ) : (
                     <button
                       disabled
@@ -186,14 +212,22 @@ export default async function DownloadsPage() {
 
                       <div className="shrink-0 mt-4 sm:mt-0">
                         {release.downloadUrl ? (
-                          <a
-                            href={release.downloadUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl font-bold text-sm bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-[#1E60F2] hover:border-[#1E60F2]/30 transition-all">
-                            获取归档包
-                            <ArrowRight className="w-4 h-4 ml-2" />
-                          </a>
+                          isAuthorized ? (
+                            <a
+                              href={release.downloadUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl font-bold text-sm bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 hover:text-[#1E60F2] hover:border-[#1E60F2]/30 transition-all">
+                              获取归档包
+                              <ArrowRight className="w-4 h-4 ml-2" />
+                            </a>
+                          ) : (
+                            <button
+                              disabled
+                              className="inline-flex items-center justify-center px-5 py-2.5 rounded-xl font-bold text-sm bg-red-50 border border-red-100 text-red-400 cursor-not-allowed">
+                              授权已拦截
+                            </button>
+                          )
                         ) : (
                           <span className="inline-flex items-center px-5 py-2.5 rounded-xl font-bold text-sm bg-gray-50 text-gray-400">
                             未挂载

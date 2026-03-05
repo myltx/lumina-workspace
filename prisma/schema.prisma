@@ -42,6 +42,10 @@ model User {
   tier          MembershipTier @default(FREE)
   status        UserStatus     @default(ACTIVE)
 
+  // 防盗版与软件授权系统 (Anti-Piracy & Licensing)
+  mt5Serial  String?   @unique // 绑定的 MT5 机器设备授权码
+  expireDate DateTime? // 软件使用授权到期日 (超过此日期将切断直链下载与使用权限)
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

@@ -17,6 +17,8 @@ export default function UsersManagementPage() {
       role: "Super Admin",
       status: "Active",
       lastLogin: "2 分钟前",
+      mt5Serial: "SYS-MASTER-001",
+      expireDate: "2099-12-31",
     },
     {
       id: "USR-002",
@@ -25,6 +27,8 @@ export default function UsersManagementPage() {
       role: "Pro User",
       status: "Active",
       lastLogin: "1 小时前",
+      mt5Serial: "VIP-ZSN-8892",
+      expireDate: "2026-10-01",
     },
     {
       id: "USR-003",
@@ -33,6 +37,8 @@ export default function UsersManagementPage() {
       role: "Free User",
       status: "Inactive",
       lastLogin: "3 天前",
+      mt5Serial: "-",
+      expireDate: "未激活",
     },
     {
       id: "USR-004",
@@ -41,6 +47,8 @@ export default function UsersManagementPage() {
       role: "EA License",
       status: "Active",
       lastLogin: "12 分钟前",
+      mt5Serial: "PRO-WWK-1102",
+      expireDate: "2025-12-01",
     },
   ];
 
@@ -94,6 +102,9 @@ export default function UsersManagementPage() {
                   角色权限
                 </th>
                 <th className="py-4 px-6 text-xs font-bold text-slate-400 uppercase tracking-wider">
+                  MT5 授权状态
+                </th>
+                <th className="py-4 px-6 text-xs font-bold text-slate-400 uppercase tracking-wider">
                   最近登录
                 </th>
                 <th className="py-4 px-6 text-xs font-bold text-slate-400 uppercase tracking-wider">
@@ -132,6 +143,16 @@ export default function UsersManagementPage() {
                     </div>
                   </td>
                   <td className="py-4 px-6">
+                    <div className="flex flex-col space-y-1">
+                      <span className="text-sm font-mono font-bold text-slate-800">
+                        {user.mt5Serial}
+                      </span>
+                      <span className="text-xs font-medium text-slate-500">
+                        到期: {user.expireDate}
+                      </span>
+                    </div>
+                  </td>
+                  <td className="py-4 px-6">
                     <div className="flex items-center text-sm text-slate-500 font-medium">
                       <Clock className="w-4 h-4 mr-1.5 text-slate-400" />
                       {user.lastLogin}
@@ -148,6 +169,9 @@ export default function UsersManagementPage() {
                     </span>
                   </td>
                   <td className="py-4 px-6 text-right">
+                    <button className="p-2 text-blue-600 hover:text-white hover:bg-blue-600 rounded-lg transition-colors font-bold text-xs bg-blue-50 border border-blue-100 mr-2">
+                      修改 MT5 授权
+                    </button>
                     <button className="p-2 text-slate-400 hover:text-[#1E60F2] hover:bg-blue-50 rounded-lg transition-colors">
                       <MoreHorizontal className="w-5 h-5" />
                     </button>
