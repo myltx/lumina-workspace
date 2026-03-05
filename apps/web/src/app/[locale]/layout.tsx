@@ -5,6 +5,7 @@ import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { routing } from "@/i18n/routing";
 import { Toaster } from "sonner";
+import Script from "next/script";
 import "../globals.css";
 
 const inter = Inter({
@@ -43,6 +44,27 @@ export default async function RootLayout({
           {children}
           <Toaster position="top-center" richColors />
         </NextIntlClientProvider>
+
+        {/* --- Tawk.to 客服系统注入 (脱离硬编码，通过配置读取) --- */}
+        {process.env.NEXT_PUBLIC_TAWK_WIDGET_URL && (
+          <Script
+            id="tawk"
+            strategy="afterInteractive"
+            dangerouslySetInnerHTML={{
+              __html: `
+                var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+                (function(){
+                var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+                s1.async=true;
+                s1.src='${process.env.NEXT_PUBLIC_TAWK_WIDGET_URL}';
+                s1.charset='UTF-8';
+                s1.setAttribute('crossorigin','*');
+                s0.parentNode.insertBefore(s1,s0);
+                })();
+              `,
+            }}
+          />
+        )}
       </body>
     </html>
   );
